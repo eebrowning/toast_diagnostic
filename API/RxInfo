@@ -1,0 +1,62 @@
+//would need clientSecret and clientId provided by user
+const clientData = {
+    "clientId": "x9iuxr8DsLpqcsH2HN10LmkgvT6xK6dn",
+    "clientSecret": "4x5EWzrWJQ0_a3xaovGWYZJP3gWVMYHMI8k01l5hp7bcBxJuRRc_IuEqC9qmhZoJ",
+    "userAccessType": "TOAST_MACHINE_CLIENT"
+}
+let guid= 'e3b73acb-a636-46b7-8f24-2e34b55801af'; //my Rx
+/*_______*/
+let cookie;
+let token;//
+let axToken;//
+const getAuth=()=>{
+   let data= fetch(`https://ws-api.toasttab.com/authentication/v1/authentication/login`, {
+        headers:{ 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        },
+        method: 'POST',
+        body: JSON.stringify(clientData)
+    })
+    //consider helper function to re-fresh token automatically, or just as a button for an app
+    data.then(async (response)=>{
+      
+        token= await response.json();
+        token= token.token;
+        // console.log(token,'res')
+        axToken=token.accessToken;
+        // console.log(axToken,'ax')
+    })
+
+
+}
+
+//this doesn't work yet-> 'full auth req to access this resource'-> not passing headers along.
+function fetchDataWithToken(guid, accessToken) {
+    const url = `https://ws-api.toasttab.com/restaurants/v1/restaurants/${guid}`;
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+    };
+    // const body = JSON.stringify({ guid: guid });
+
+    return fetch(url, {
+        method: 'GET',
+        headers: headers
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.log(response)
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Data received:', data);
+        // Process the data further as needed
+        return data;
+    })
+}
+
+console.log(getAuth());
+// console.log(fetchDataWithToken(guid, axToken));
+
