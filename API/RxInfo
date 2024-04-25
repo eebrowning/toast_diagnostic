@@ -1,12 +1,17 @@
+//clientData->PostMan credentials > need to find out how to obtain programmatically from Toast.
+//accessToken ->obtained by getAuth w/ clientData
+const [clientId,clientSecret, guid] = require('../keys');//put your own in an .env and it will pull from there-> see keys.js && dotenv package
 //would need clientSecret and clientId provided by user
+
+
 const clientData = {
-    "clientId": "x9iuxr8DsLpqcsH2HN10LmkgvT6xK6dn",
-    "clientSecret": "4x5EWzrWJQ0_a3xaovGWYZJP3gWVMYHMI8k01l5hp7bcBxJuRRc_IuEqC9qmhZoJ",
+    "clientId": clientId,
+    "clientSecret": clientSecret,
     "userAccessType": "TOAST_MACHINE_CLIENT"
 }
-let guid= 'e3b73acb-a636-46b7-8f24-2e34b55801af'; //my Rx
+
 /*_______*/
-let cookie;
+// let cookie;
 let axToken;//
 const getAuth=async ()=>{
   let data= await fetch(`https://ws-api.toasttab.com/authentication/v1/authentication/login`, {
