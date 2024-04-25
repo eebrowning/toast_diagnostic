@@ -23,7 +23,6 @@ const getAuth=async ()=>{
     token= token.token;
     axToken=token.accessToken;
     return;
-    // console.log(axToken,'ax')
 
 
 }
@@ -32,12 +31,12 @@ const getAuth=async ()=>{
 //this doesn't work yet-> 'full auth req to access this resource'-> not passing headers along.
 function fetchDataWithToken(guid, accessToken) {
     const url = `https://ws-api.toasttab.com/restaurants/v1/restaurants/${guid}`;
-    // const url= `https://ws-api.toasttab.com/menus/v2/menus`
+    // const url= `https://ws-api.toasttab.com/menus/v2/menus`;
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
-        // 'Authorization': `${accessToken}`
+        'Authorization': `Bearer ${accessToken}`,
+        'Toast-Restaurant-External-Id': `${guid}`
 
     };
     // const body = JSON.stringify({ guid: guid });
@@ -53,6 +52,7 @@ function fetchDataWithToken(guid, accessToken) {
     })
     .then(data => {
         console.log('Data received:', data);
+
         // Process the data further as needed
         return data;
     })
