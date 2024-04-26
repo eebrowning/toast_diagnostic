@@ -67,3 +67,13 @@ getAuth().then(()=>fetchDataWithToken(guid, axToken));
 // fetchDataWithToken(guid, axToken);
 
 
+
+
+/*
+Need dining options! -> programmatically find the GH / DD / UE options via config:
+https://ws-api.toasttab.com/config/v2/diningOptions?pageToken=
+*/
+
+/*
+
+*/
