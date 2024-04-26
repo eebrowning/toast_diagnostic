@@ -1,4 +1,11 @@
-Rx Info Tool -> 
+David: providing variety of useful splunk queries that can be turned into a template for generating splunk links
+Gabriel: Front end appearance, next.js structure, Chrome connection 
+Ethan: next.js API, data store(react-query or redux), sorting data efficiently
+
+Rx Info/Integration health check Tool -> support-centered tool for checking for most recent 3pd orders
+ideally would help T1/T2 immediately eliminate integrations issues, and to get an idea of how the 'big 3' are functioning at-a-glance.
+could be extended to Cx's as a POS button, like the device health checks that currently exist.
+Could also provide pre-scripted links to queries w/ splunk -> basically just pasting in the clientID and GUID for the user on queries, sorted by issue (api orders/ loyalty/ gift card)
 
 Ideally should be a Chrome extension.
 Could just be a front end app on a free host.
@@ -34,7 +41,8 @@ Features: 3 tabs?
 
 
 Rx Info:
-* 
+* general info, should just be a 'copy rx info' button or something to save space
+* formatted block for easy pasting to comms to partners: lx name, address, guid
 
 
 Orders health check:
@@ -45,3 +53,4 @@ Orders health check:
 Helpful Splunks:
 * Pre-structured queries that will link to splunk
 * Categories/issues
+
