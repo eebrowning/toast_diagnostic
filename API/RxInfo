@@ -33,7 +33,7 @@ const getAuth=async ()=>{
 }
 
 
-//this doesn't work yet-> 'full auth req to access this resource'-> not passing headers along.
+
 function fetchDataWithToken(guid, accessToken) {
     const url = `https://ws-api.toasttab.com/restaurants/v1/restaurants/${guid}`;
     // const url= `https://ws-api.toasttab.com/menus/v2/menus`;

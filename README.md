@@ -9,7 +9,7 @@ Takes guid like postman, but returns options/useful shortcuts
 * Google search link for partners based on address
 * Orders api check for 3pd orders-> latest of each; date/time
 * Auto toggle first inventory item to re-send webhooks
-* Shortcut links to toast web settings pages-> sorted by common settings   #rxinfotool
+* Shortcut links to toast web settings pages-> sorted by common settings#rxinfotool
 
 
 https://thepantry.toasttab.com/sites/experience/community/events/news/11781/the-ultimate-guide-to-hackathon
