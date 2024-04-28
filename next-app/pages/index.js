@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 import styles from "../styles/Home.module.css";
 import RestaurantInfo from "./components/RxInfo";
-import Authentication from "./components/authInfo";
 import { getAuth } from "../API/ToastQueries";
 
 
@@ -17,7 +16,6 @@ const IndexPage = ({pageProps}) => {
       Testing: main view -  index.js
       {accessToken ? (
         <>
-          {/* <Authentication accessToken={accessToken} {...pageProps} /> */}
           <RestaurantInfo accessToken={accessToken} {...pageProps} />
         </>
       ) : (
