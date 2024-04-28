@@ -1,41 +1,30 @@
 import { getRxInfo } from "../../API/ToastQueries.js";
 import { useQuery } from "react-query";
 import { useQueryClient } from "../../utils/ReactQueryProvider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 ///currently 'works', but having state issues. 
-const RestaurantInfo = () => {
+const RestaurantInfo = ({pageProps}) => {
+
     const queryClient = useQueryClient();
-    const accessToken=  queryClient.getQueryData('accessToken');
-    // console.log('heyy', accessToken)
+    const accessToken= queryClient.getQueryData('accessToken');
+    console.log('heyy', accessToken)
 
-    useEffect(() => {
-        if (accessToken) {
-          queryClient.invalidateQueries('RxInfo');
-          queryClient.prefetchQuery('RxInfo', () => getRxInfo(accessToken));
-        }
-      }, [accessToken, queryClient]);
+    const  { data, isLoading, error } = useQuery('RxInfo', async ()=> await getRxInfo(accessToken));
+  
 
-    if(accessToken){
-
-        const { data, isLoading, error } = useQuery('RxInfo', ()=>  getRxInfo(accessToken));
+    const handleClick = (e) => {
+        e.preventDefault();
+        queryClient.invalidateQueries('RxInfo');
+    };
     
-        const handleClick = (e) => {
-            e.preventDefault();
-            queryClient.invalidateQueries('RxInfo');
-          };
-        
-          return (
-            <div>
-              <button onClick={handleClick}>Fetch Restaurant Info</button>
-              {isLoading && <div>Loading...</div>}
-              {error && <div>Error: {error.message}</div>}
-              {data && <div>{data.general?.name}</div>}
-            </div>
-          );
-}
-else return <div>No Token</div>
+    return (
+      <div>
+        <button onClick={handleClick}>Fetch Restaurant Info</button>
+        {data && <div>{data.general?.name}</div>}
+      </div>
+    );
     
 }
 

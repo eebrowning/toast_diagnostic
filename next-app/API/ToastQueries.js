@@ -1,6 +1,5 @@
 //Baseline test for fetching to Toast API ->use these with React-Query!
 
-import { useQueryClient } from "../utils/ReactQueryProvider"
 
 //clientData->PostMan credentials > need to find out how to obtain programmatically from Toast.
 //accessToken ->obtained by getAuth w/ clientData
@@ -17,8 +16,6 @@ export const getAuth=async ()=>{
     }
 
     let data= await fetch(`/api/authentication/v1/authentication/login`, {
-
-    //   let data= await fetch(`https://ws-api.toasttab.com/authentication/v1/authentication/login`, {
         headers:{ 
             'Accept': 'application/json',
             'Content-Type': 'application/json' 
@@ -38,9 +35,7 @@ export const getAuth=async ()=>{
 
 
 export function getRxInfo(accessToken) {
-    // const queryClient = useQueryClient();
 
-    // const accessToken= queryClient.getQueryData('accessToken');
     const url = `/api/restaurants/v1/restaurants/${process.env.guid}`;
     // const url= `https://ws-api.toasttab.com/menus/v2/menus`;
     // const url= https://ws-api.toasttab.com/config/v2/diningOptions?pageToken=;
@@ -66,7 +61,6 @@ export function getRxInfo(accessToken) {
     })
     .then(data => {
         console.log('Data received:', data);
-
         // Process the data further as needed
         return data;
     })
