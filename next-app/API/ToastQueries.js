@@ -34,18 +34,25 @@ export const getAuth=async ()=>{
 
 
 
-export function getRxInfo(accessToken) {
+export function getRxInfo(accessToken, guid) {
+   let url;
+    if(guid){
+         url = `/api/restaurants/v1/restaurants/${guid}`;
 
-    const url = `/api/restaurants/v1/restaurants/${process.env.guid}`;
-    // const url= `https://ws-api.toasttab.com/menus/v2/menus`;
-    // const url= https://ws-api.toasttab.com/config/v2/diningOptions?pageToken=;
+    }
+    else{
+
+         url = `/api/restaurants/v1/restaurants/${process.env.guid}`;
+        // const url= `https://ws-api.toasttab.com/menus/v2/menus`;
+        // const url= https://ws-api.toasttab.com/config/v2/diningOptions?pageToken=;
+    }
     
 
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
-        'Toast-Restaurant-External-Id': `${process.env.guid}`
+        'Toast-Restaurant-External-Id': `${guid}`
 
     };
     // const body = JSON.stringify({ guid: guid });
