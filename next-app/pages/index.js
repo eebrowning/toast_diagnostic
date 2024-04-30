@@ -7,7 +7,7 @@ import { getAuth } from "../API/ToastQueries";
 
 const IndexPage = ({pageProps}) => {
   const { data: accessToken } = useQuery('accessToken', getAuth, {
-    staleTime: 1000 * 60,
+    staleTime: 3600000,//1hr
   });
 
   return (
