@@ -73,20 +73,89 @@ export function getRxInfo(accessToken, guid) {
     })
 }
 
-// getAuth().then(()=>fetchDataWithToken(guid, axToken));
-// fetchDataWithToken(guid, axToken);
+
+export function getDiningOptions(accessToken, guid) {
+    let url = `/api/config/v2/diningOptions?pageToken=`;
+     
+
+     const headers = {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${accessToken}`,
+         'Toast-Restaurant-External-Id': `${guid}`
+ 
+     };
+     // const body = JSON.stringify({ guid: guid });
+     return fetch(url, {
+         method: 'GET',
+         headers: headers
+     })
+     .then(response => {
+         if (!response.ok) {
+             console.log(response, 'res')
+         }
+         return response.json();
+     })
+     .then(data => {
+        //  console.log('Dining Options received:', data);
+        // Process the data further as needed
+        let map={}; //optionGUID : optionName -> this format will allow us to just select by guid without needing effort front-end
+        for( let obj of data){
+            map[obj['guid']]=obj['name']
+        }
+         return map;
+     })
+ }
 
 
 
+ export function getRecentOrders(accessToken, guid) {
+ 
+    const today_ = new Date();
+    const year = today_.getFullYear();
+    const month = String(today_.getMonth() + 1).padStart(2, '0');
+    const day = String(today_.getDate()).padStart(2, '0');
 
-/*
-Need dining options! -> programmatically find the GH / DD / UE options via config:
-https://ws-api.toasttab.com/config/v2/diningOptions?pageToken=
+    const end = `${year}-${month}-${day}`;
 
-grab dining options, associate partner to diningoption guid 
-state management -> reactquery? redux? we will need to have a way of storing/accessing orders post-pull.
-*/
+    const twoday_= new Date(Date.now() - 2 * 24 * 3600 * 1000)
+    const year2 = twoday_.getFullYear();
+    const month2 = String(twoday_.getMonth() + 1).padStart(2, '0');
+    const day2 = String(twoday_.getDate()).padStart(2, '0');
 
-/*
+    const start= `${year2}-${month2}-${day2}`
 
-*/
+    let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T23:00:00.000-0000`;
+
+
+     const headers = {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${accessToken}`,
+         'Toast-Restaurant-External-Id': `${guid}`
+ 
+     };
+     // const body = JSON.stringify({ guid: guid });
+     return fetch(url, {
+         method: 'GET',
+         headers: headers
+     })
+     .then(response => {
+         if (!response.ok) {
+             console.log(response, 'res')
+         }
+         return response.json();
+     })
+     .then(data => {
+         console.log('Order Data received:', data);
+         // Process the data further as needed
+         
+        
+        const apiOrders= data.filter(order=> order["source"]=="API");
+         console.log(apiOrders,'still inside query')
+         return apiOrders;
+
+
+
+     })
+ }

@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import styles from "../styles/Home.module.css";
 import RestaurantInfo from "./components/RxInfo";
+import OrderInfo from "./components/OrderInfo";
 import { getAuth } from "../API/ToastQueries";
 
 
@@ -9,14 +10,13 @@ const IndexPage = ({pageProps}) => {
     staleTime: 1000 * 60,
   });
 
-  console.log(accessToken, 'at')
-
   return (
     <div className={styles.container}>
       Testing: main view -  index.js
       {accessToken ? (
         <>
           <RestaurantInfo accessToken={accessToken} {...pageProps} />
+          <OrderInfo accessToken={accessToken} {...pageProps} />
         </>
       ) : (
         <div>Loading...</div>
