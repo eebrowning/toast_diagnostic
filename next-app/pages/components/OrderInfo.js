@@ -11,6 +11,10 @@ const OrderInfo = ({pageProps}) => {
     const queryClient = useQueryClient();
     const accessToken= queryClient.getQueryData('accessToken');
     const guid = sessionStorage.getItem('guid');
+    const [dd,setDd]=useState([]);
+    const [gh,setGh]=useState([]);
+    const [ue,setUe]=useState([]);
+
 
     // let drop=()=> queryClient.clear();//will drop current cache
     // console.log(guid, accessToken);
@@ -30,14 +34,36 @@ const OrderInfo = ({pageProps}) => {
         return await getRecentOrders(accessToken, guid);
       });
 
-    console.log(orders,'orders')//BOOOOOM -> good. We just need to figure out sorting to show each partner here!
+    // console.log(orders,map,'orders')//BOOOOOM -> good. We just need to figure out sorting to show each partner here!
+    //need to make sure orders update dynamically--currently 1 refresh
     
+    const filterPartnerOrder=(partner)=>{
+        let res= orders.filter(order=>{
+            //only want partner dining options...
+            //for order -< if map[diningOptionGuid] includes 'grubhub' or 'uber eats' or 'doordash', allow.
+           console.log(order.diningOption.guid,map[order.diningOption.guid])
+            if( map[order.diningOption.guid].toLowerCase().includes(`${partner}`)){
+            return order;
+           }
+        })
+        // console.log(res, 'res')
+       
+        if(partner=='doordash')setDd(res); 
+        if(partner=='grub')setGh(res); 
+        if(partner=='uber') setUe(res);
+       
 
-      const handleClick = (e) => {
+    }
+
+
+    const handleClick = (e) => {
         e.preventDefault();
         queryClient.invalidateQueries(['OrderInfo', accessToken, guid]);
         // console.log(queryClient.getQueryData('optionMap'),'map?')
         // console.log(queryClient.getQueryData('optionMap'),'map?')
+        filterPartnerOrder('doordash');
+        filterPartnerOrder('grub');
+        filterPartnerOrder('uber');
 
     };
 
@@ -48,9 +74,11 @@ const OrderInfo = ({pageProps}) => {
       <div>
 
         <button onClick={handleClick}>Fetch Dining Options</button>
-        <div>
-        {map && <>{orders.length} orders with source "API" in the last 48 hours</>}
-        </div>
+        <div>{orders && <>{orders.length} orders with source "API" in the last 48 hours</>}</div>
+        <div>{orders && <>{dd.length} DoorDash orders in the last 48 hours</>}</div>
+        <div>{orders && <>{gh.length} Grubhub orders in the last 48 hours</>}</div>
+        <div>{orders && <>{ue.length} Uber Eats orders in the last 48 hours</>}</div>
+
       </div>
     );
     

@@ -35,19 +35,9 @@ export const getAuth=async ()=>{
 
 
 export function getRxInfo(accessToken, guid) {
-   let url;
-    if(guid){
-         url = `/api/restaurants/v1/restaurants/${guid}`;
+   let url = `/api/restaurants/v1/restaurants/${guid}`;
 
-    }
-    else{
-
-         url = `/api/restaurants/v1/restaurants/${process.env.guid}`;
-        // const url= `https://ws-api.toasttab.com/menus/v2/menus`;
-        // const url= https://ws-api.toasttab.com/config/v2/diningOptions?pageToken=;
-    }
     
-
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -67,7 +57,7 @@ export function getRxInfo(accessToken, guid) {
         return response.json();
     })
     .then(data => {
-        console.log('Data received:', data);
+        // console.log('Data received:', data);
         // Process the data further as needed
         return data;
     })
@@ -105,7 +95,7 @@ export function getDiningOptions(accessToken, guid) {
         }
          return map;
      })
- }
+}
 
 
 
@@ -115,7 +105,12 @@ export function getDiningOptions(accessToken, guid) {
     const year = today_.getFullYear();
     const month = String(today_.getMonth() + 1).padStart(2, '0');
     const day = String(today_.getDate()).padStart(2, '0');
-
+    const hours = String(today_.getHours()).padStart(2, '0');
+    const minutes = String(today_.getMinutes()).padStart(2, '0');
+    const seconds = String(today_.getSeconds()).padStart(2, '0');
+    const milliseconds = String(today_.getMilliseconds()).padStart(3, '0');
+    
+    const timeString = `${hours}:${minutes}:${seconds}.${milliseconds}`;
     const end = `${year}-${month}-${day}`;
 
     const twoday_= new Date(Date.now() - 2 * 24 * 3600 * 1000)
@@ -124,8 +119,7 @@ export function getDiningOptions(accessToken, guid) {
     const day2 = String(twoday_.getDate()).padStart(2, '0');
 
     const start= `${year2}-${month2}-${day2}`
-
-    let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T23:00:00.000-0000`;
+    let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000`;
 
 
      const headers = {
@@ -147,12 +141,11 @@ export function getDiningOptions(accessToken, guid) {
          return response.json();
      })
      .then(data => {
-         console.log('Order Data received:', data);
+        //  console.log('Order Data received:', data);
          // Process the data further as needed
          
         
         const apiOrders= data.filter(order=> order["source"]=="API");
-         console.log(apiOrders,'still inside query')
          return apiOrders;
 
 
