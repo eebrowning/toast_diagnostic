@@ -2,6 +2,9 @@ David: providing variety of useful splunk queries that can be turned into a temp
 Gabriel: Front end appearance, next.js structure, Chrome connection 
 Ethan: next.js API, data store(react-query or redux), sorting data efficiently
 
+**Gabriel, I do not know how to properly organize a next.js project 0.o' -> feel free to just reorganize as needed! -EB
+
+
 Rx Info/Integration health check Tool -> support-centered tool for checking for most recent 3pd orders
 ideally would help T1/T2 immediately eliminate integrations issues, and to get an idea of how the 'big 3' are functioning at-a-glance.
 could be extended to Cx's as a POS button, like the device health checks that currently exist.
