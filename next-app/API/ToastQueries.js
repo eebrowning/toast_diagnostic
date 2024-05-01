@@ -119,9 +119,11 @@ export function getDiningOptions(accessToken, guid) {
     const day2 = String(twoday_.getDate()).padStart(2, '0');
 
     const start= `${year2}-${month2}-${day2}`
+    // console.log('start',start,'end',end)
+
     let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000`;
-
-
+    // let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000&pageSize=100&page=1`
+//todo: figure out pagination for ordersBulk
      const headers = {
          'Accept': 'application/json',
          'Content-Type': 'application/json',
@@ -138,15 +140,19 @@ export function getDiningOptions(accessToken, guid) {
          if (!response.ok) {
              console.log(response, 'res')
          }
+         console.log(response, 'res')
+         
          return response.json();
      })
      .then(data => {
         //  console.log('Order Data received:', data);
          // Process the data further as needed
          
-        
+        console.log(data,'api')
         const apiOrders= data.filter(order=> order["source"]=="API");
-         return apiOrders;
+        console.log(apiOrders,'api')
+         
+        return apiOrders;
 
 
 

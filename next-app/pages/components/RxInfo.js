@@ -28,6 +28,10 @@ const RestaurantInfo = ({pageProps}) => {
         queryClient.setQueryData('guid',guid)
         queryClient.invalidateQueries('guid')
         queryClient.invalidateQueries('RxInfo')
+        queryClient.removeQueries('gh')
+        queryClient.removeQueries('dd')
+        queryClient.removeQueries('ue')
+
       
     }
 
