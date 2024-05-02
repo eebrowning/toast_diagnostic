@@ -1,3 +1,29 @@
+Running the project:
+
+If you already have your local environment set up, just navigate to the next-app folder in your terminal, and run the following:
+
+`npm install`
+
+`npm run dev`
+
+Step 1: Installing the Node JS and NPM
+
+https://brew.sh/ ->go here, there is a copyable terminal script you can paste in your terminal to install Homebrew.
+
+Upon opening Homebrew, you will encounter a command-line interface where you can easily unpack and install Node.js and NPM by executing the command 'brew install node'. After this, Node JS and NPM will be installed, and you have to confirm their Installation.
+
+`brew install node`
+
+Step 2: Verifying Installation
+To confirm the Installation of Node JS and NPM, you have to open the terminal and type the node -v and npm -v commands to check the installed version.
+
+`node -v`
+
+`npm -v`
+
+If the Homebrew hasn’t installed the latest version of Node JS, you can open it again and run the command brew upgrade node. It will update the Node JS version.
+
+
 David: providing variety of useful splunk queries that can be turned into a template for generating splunk links
 Gabriel: Front end appearance, next.js structure, Chrome connection 
 Ethan: next.js API, data store(react-query or redux), sorting data efficiently
