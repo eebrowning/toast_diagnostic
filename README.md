@@ -6,6 +6,8 @@ If you already have your local environment set up, just navigate to the next-app
 
 `npm run dev`
 
+Navigate to http://localhost:3000/ in your browser.
+
 Step 1: Installing the Node JS and NPM
 
 https://brew.sh/ ->go here, there is a copyable terminal script you can paste in your terminal to install Homebrew.
