@@ -44,7 +44,7 @@ const OrderInfo = ({pageProps}) => {
         let res= orders?.filter(order=>{
             //only want partner dining options...
             //for order -< if map[diningOptionGuid] includes 'grubhub' or 'uber eats' or 'doordash', allow.
-            console.log(map[order.diningOption?.guid]?.toLowerCase(),'lowercase')
+            // console.log(map[order.diningOption?.guid]?.toLowerCase(),'lowercase')
             if( map[order.diningOption?.guid]?.toLowerCase().includes(`${partner}`)){
             return order;
            }
@@ -70,20 +70,20 @@ const OrderInfo = ({pageProps}) => {
         filterPartnerOrder('door');
         filterPartnerOrder('grub');
         filterPartnerOrder('uber');
-        console.log(ue,'wahhh')
+        // console.log(ue,'wahhh')
     };
 
-    // if(isLoading) return(<div>Loading...</div>)
-    // else if(error) return(<>error.message</>)
-    // else 
+    if(ordersIsLoading) return(<div>Orders Loading...</div>)
+    else if(ordersError) return(<>error.message</>)
+    else 
     return (
       <div>
 
         <button onClick={handleClick}>Check Recent Orders</button>
-        <div>{orders && <>{orders.length} orders with source "API" in the last 48 hours</>}</div>
-        <div>{dd && <>{dd.length} DoorDash orders in the last 48 hours</>}</div>
-        <div>{gh && <>{gh.length} Grubhub orders in the last 48 hours</>}</div>
-        <div>{ue && <>{ue.length} Uber Eats orders in the last 48 hours</>}</div>
+        <div>{orders && <>{orders.length} orders with source "API" in the last 2 days</>}</div>
+        <div>{dd && <>{dd.length} DoorDash orders in the last 2 days</>}</div>
+        <div>{gh && <>{gh.length} Grubhub orders in the last 2 days</>}</div>
+        <div>{ue && <>{ue.length} Uber Eats orders in the last 2 days</>}</div>
 
       </div>
     );

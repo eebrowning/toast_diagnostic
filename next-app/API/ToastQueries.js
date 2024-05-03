@@ -119,42 +119,85 @@ export function getDiningOptions(accessToken, guid) {
     const day2 = String(twoday_.getDate()).padStart(2, '0');
 
     const start= `${year2}-${month2}-${day2}`
-    // console.log('start',start,'end',end)
 
-    let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000`;
-    // let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000&pageSize=100&page=1`
-//todo: figure out pagination for ordersBulk
-     const headers = {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${accessToken}`,
-         'Toast-Restaurant-External-Id': `${guid}`
- 
-     };
-     // const body = JSON.stringify({ guid: guid });
-     return fetch(url, {
-         method: 'GET',
-         headers: headers
-     })
-     .then(response => {
-         if (!response.ok) {
-             console.log(response, 'res')
-         }
-         console.log(response, 'res')
-         
-         return response.json();
-     })
-     .then(data => {
-        //  console.log('Order Data received:', data);
-         // Process the data further as needed
-         
-        console.log(data,'api')
-        const apiOrders= data.filter(order=> order["source"]=="API");
-        console.log(apiOrders,'api')
-         
+
+
+
+
+    function fetchOrders(start, end, timeString, accessToken, guid, page = 1) {//recursively calls until no more orders.
+        let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}`;
+
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Toast-Restaurant-External-Id': `${guid}`
+        };
+
+        return fetch(url, {
+            method: 'GET',
+            headers: headers
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch orders. Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(orders => {
+            if (orders.length === 0 || orders.length < 100) {
+                return orders;
+            }
+            return fetchOrders(start, end, timeString, accessToken, guid, page + 1)
+                .then(nextPageOrders => [...orders, ...nextPageOrders]);
+        });
+    }
+    return fetchOrders(start, end, timeString, accessToken, guid)
+    .then(data => {
+        const apiOrders = data.filter(order => order["source"] === "API");
         return apiOrders;
+    });
 
 
 
-     })
+
+
+
+
+//     let url = `/api/orders/v2/ordersBulk?startDate=${start}T${timeString}-0000&endDate=${end}T${timeString}-0000`;
+//     // let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000&pageSize=100&page=1`
+// //todo: figure out pagination for ordersBulk
+//      const headers = {
+//          'Accept': 'application/json',
+//          'Content-Type': 'application/json',
+//          'Authorization': `Bearer ${accessToken}`,
+//          'Toast-Restaurant-External-Id': `${guid}`
+ 
+//      };
+//      // const body = JSON.stringify({ guid: guid });
+//      return fetch(url, {
+//          method: 'GET',
+//          headers: headers
+//      })
+//      .then(response => {
+//          if (!response.ok) {
+//              console.log(response, 'res')
+//          }
+//          console.log(response, 'res')
+         
+//          return response.json();
+//      })
+//      .then(data => {
+//         //  console.log('Order Data received:', data);
+//          // Process the data further as needed
+         
+//         console.log(data,'api')
+//         const apiOrders= data.filter(order=> order["source"]=="API");
+//         console.log(apiOrders,'api')
+         
+//         return apiOrders;
+
+
+
+//      })
  }
