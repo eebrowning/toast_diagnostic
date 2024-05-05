@@ -5,12 +5,13 @@ import { getRxInfo } from "../../API/ToastQueries";
 
 
 
-const ScriptedSplunks= ({pageProps, accessToken}) => {
-const iGuid = sessionStorage.getItem('guid');//since we aren't using much info. But, this could be handled by SSR?
+const ScriptedSplunks= ({pageProps, accessToken, guid}) => {
+// const iGuid = sessionStorage.getItem('guid');//since we aren't using much info. But, this could be handled by SSR?
 const queryClient = useQueryClient();
-const [guid, setGuid]= useState(iGuid?iGuid:null);//I shouldn't need this, but don't @ me...
+// const [guid, setGuid]= useState(iGuid?iGuid:null);//I shouldn't need this, but don't @ me...
 
-const { data, isLoading, error } = useQuery(['RxInfo', accessToken], async () => {
+
+const { data, isLoading, error } = useQuery(['RxInfo', accessToken, guid], async () => {
     if (!accessToken || !guid) return;//todo: maybe add to an errors useState for 'validation errors'?
     return await getRxInfo(accessToken, guid);
 });
@@ -54,7 +55,7 @@ console.log(data,'data in splunk')
         is anyone Home
        {data && <ul>
             {queries.map(query=>(
-                <li><a style={{color:'blue'}} href={query.query} target="blank">{query.name}</a></li>
+                <li key={query.name}><a style={{color:'blue'}} href={query.query} target="blank">{query.name}</a></li>
             ))}
         </ul>
         }

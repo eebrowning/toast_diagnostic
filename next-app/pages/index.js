@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import RestaurantInfo from "./components/RxInfo";
 import OrderInfo from "./components/OrderInfo";
 import { getAuth } from "../API/ToastQueries";
-import ScriptedSplunks from "./components/ScriptedSpunks";
+
 
 
 
@@ -19,7 +19,6 @@ const IndexPage = ({pageProps}) => {
       {accessToken ? (
         <>
           <RestaurantInfo accessToken={accessToken} {...pageProps} />
-          <ScriptedSplunks accessToken={accessToken} {...pageProps}/>
         </>
       ) : (
         <div>Loading...</div>
