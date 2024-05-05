@@ -122,47 +122,59 @@ export function getDiningOptions(accessToken, guid) {
 
 
 
-
-
-    function fetchOrders(start, end, timeString, accessToken, guid, page = 1) {//recursively calls until no more orders.
-        let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}`;
-
-        const headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-            'Toast-Restaurant-External-Id': `${guid}`
-        };
-
-        return fetch(url, {
-            method: 'GET',
-            headers: headers
-        })
-        .then(response => {
+    async function fetchOrders(start, end, timeString, accessToken, guid) {//parallel requests-sometimes extra, but faster
+        const pageSize = 100; // Adjust the page size as needed
+        let page = 1;
+        let orders = [];
+    
+        while (true) {
+            const url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}`;
+            const headers = {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+                'Toast-Restaurant-External-Id': `${guid}`
+            };
+    
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: headers
+            });
+    
             if (!response.ok) {
                 throw new Error(`Failed to fetch orders. Status: ${response.status}`);
             }
-            return response.json();
-        })
-        .then(orders => {
-            if (orders.length === 0 || orders.length < 100) {
-                return orders;
+    
+            const data = await response.json();
+    
+            if (data.length === 0) {
+                break;
             }
-            return fetchOrders(start, end, timeString, accessToken, guid, page + 1)
-                .then(nextPageOrders => [...orders, ...nextPageOrders]);
-        });
+    
+            orders.push(...data);
+    
+            if (data.length < pageSize) {
+                break;
+            }
+    
+            page++;
+        }
+    
+        return orders;
     }
-    return fetchOrders(start, end, timeString, accessToken, guid)
-    .then(data => {
-        const apiOrders = data.filter(order => order["source"] === "API");
-        return apiOrders;
+    const orderFetch= fetchOrders(start, end, timeString, accessToken, guid)
+        .then(apiOrders => {
+            return apiOrders.filter(order => order["source"] === "API");
     });
 
+    return orderFetch;
+//    return fetchOrders(start, end, timeString, accessToken, guid)
+//         .then(apiOrders => {
+//             return apiOrders.filter(order => order["source"] === "API");
+//         });
+    
 
-
-
-
-
+}
 
 //     let url = `/api/orders/v2/ordersBulk?startDate=${start}T${timeString}-0000&endDate=${end}T${timeString}-0000`;
 //     // let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000&pageSize=100&page=1`
@@ -200,4 +212,4 @@ export function getDiningOptions(accessToken, guid) {
 
 
 //      })
- }
+ 
