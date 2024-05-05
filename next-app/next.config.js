@@ -1,6 +1,5 @@
 //helps avoid CORS and .env availability issues!
 module.exports = {
-    output: 'export',
     async rewrites() {
       return [
         {
