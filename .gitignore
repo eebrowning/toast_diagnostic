@@ -1,8 +1,5 @@
 .env
 
-# ignore extension
-extension
-
 
 # Numerous always-ignore extensions
 *.diff
