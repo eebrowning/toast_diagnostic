@@ -1,6 +1,7 @@
 import { getDiningOptions, getRecentOrders } from "../../API/ToastQueries.js";
 import { useQuery } from "react-query";
 import { useQueryClient } from "../../utils/ReactQueryProvider";
+import { useEffect, useState } from "react";
 
 
 
@@ -8,12 +9,16 @@ import { useQueryClient } from "../../utils/ReactQueryProvider";
 const OrderInfo = ({pageProps, rxInfo}) => {
     const queryClient = useQueryClient();
     const accessToken= queryClient.getQueryData('accessToken');
-    const guid = sessionStorage.getItem('guid');//won't work w/chrome -< chrome storage? does it even need to persist?(yes)
+    // const guid = sessionStorage.getItem('guid');//won't work w/chrome -< chrome storage? does it even need to persist?(yes)
 
     const ue= queryClient.getQueryData('ue');
     const dd= queryClient.getQueryData('dd');
     const gh= queryClient.getQueryData('gh');
-
+    const [guid, setGuid] = useState(null);
+    useEffect(() => {
+      const iGuid = sessionStorage.getItem('guid');
+      setGuid(iGuid ? iGuid : null);
+    }, []);
     const updateOptionMap = (newMap) => {
         queryClient.setQueryData('optionMap', newMap);
       };
@@ -84,7 +89,7 @@ const OrderInfo = ({pageProps, rxInfo}) => {
         <button onClick={handleClick}>Show Partner Orders</button>
         <div id='partner-orders'>
 
-          <div>{orders && <>{orders.length} orders with source "API" in the last 2 days</>}</div>
+          <div>{orders && <>{orders.length} orders with source API in the last 2 days</>}</div>
           <div>{dd && <>{dd.length} <a href={ddSearch} style={{color:'blue'}} target="blank">DoorDash</a> orders in the last 2 days</>}</div>
           <div>{gh && <>{gh.length} <a href={ghSearch} style={{color:'blue'}} target="blank">Grubhub</a> orders in the last 2 days</>}</div>
           <div>{ue && <>{ue.length} <a href={ueSearch} style={{color:'blue'}} target="blank">Uber Eats</a> orders in the last 2 days</>}</div>
