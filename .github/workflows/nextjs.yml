@@ -18,7 +18,9 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
-        run: npm next-app/install
+        run: |
+          cd next-app
+          npm install
 
       - name: Build and Run App
         run: npm run dev
