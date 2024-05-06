@@ -15,7 +15,7 @@ const { data, isLoading, error } = useQuery(['RxInfo', accessToken, guid], async
     if (!accessToken || !guid) return;//todo: maybe add to an errors useState for 'validation errors'?
     return await getRxInfo(accessToken, guid);
 });
-console.log(data,'data in splunk')
+// console.log(data,'data in splunk')
 
 
     let queries=[
