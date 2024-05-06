@@ -11,11 +11,11 @@ const IndexPage = ({pageProps}) => {
   const { data: accessToken } = useQuery('accessToken', getAuth, {
     staleTime: 3600000,//1hr
   });
-  console.log(accessToken,'accessToken')
 
   return (
     <div className={styles.container}>
       Testing: main view -  index.js
+      {console.log(accessToken,'accessToken')}
       {accessToken ? (
         <>
           <RestaurantInfo accessToken={accessToken} {...pageProps} />
