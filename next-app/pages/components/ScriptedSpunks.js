@@ -52,7 +52,7 @@ console.log(data,'data in splunk')
     else if(error) return(<>error.message</>)
     else return (
       <div>
-        is anyone Home
+        <div>Links to Helpful Splunks</div>
        {data && <ul>
             {queries.map(query=>(
                 <li key={query.name}><a style={{color:'blue'}} href={query.query} target="blank">{query.name}</a></li>

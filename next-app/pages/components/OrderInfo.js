@@ -71,14 +71,12 @@ const OrderInfo = ({pageProps, rxInfo}) => {
     };
 
 
-
-
    
-      const ddSearch= `https://www.google.com/search?q=site:doordash.com+${rxInfo?.general?.name}+${rxInfo?.location?.address1}`
-      const ghSearch=`https://www.google.com/search?q=site:grubhub.com+${rxInfo?.general?.name}+${rxInfo?.location?.address1}`
-      const ueSearch= `https://www.google.com/search?q=site:ubereats.com+${rxInfo?.general?.name}+${rxInfo?.location?.address1}`
+      const ddSearch= `https://www.google.com/search?q=site:doordash.com+${rxInfo?.location?.address1}`
+      const ghSearch=`https://www.google.com/search?q=site:grubhub.com+${rxInfo?.location?.address1}`
+      const ueSearch= `https://www.google.com/search?q=site:ubereats.com+${rxInfo?.location?.address1}`
       
-    
+
 
     if(ordersIsLoading) return(<div>Orders Loading...</div>)
     else if(ordersError) return(<>error.message</>)
