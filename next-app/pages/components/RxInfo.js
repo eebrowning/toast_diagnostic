@@ -45,6 +45,7 @@ const RestaurantInfo = ({pageProps, accessToken}) => {
     else if(error) return(<>error.message</>)
     else return (
       <div>
+
         <input id='input-guid' type='text'></input>
         <button onClick={handleClick}>Fetch Restaurant Info</button>
         {data && <div>

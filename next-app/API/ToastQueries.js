@@ -10,8 +10,8 @@
 
 export const getAuth=async ()=>{
     const clientData = {
-        "clientId": process.env.clientId,
-        "clientSecret": process.env.clientSecret,
+        "clientId": process.env.clientId || sessionStorage.getItem('clientId'),
+        "clientSecret": process.env.clientSecret || sessionStorage.getItem('clientSecret'),
         "userAccessType": "TOAST_MACHINE_CLIENT"
     }
 
