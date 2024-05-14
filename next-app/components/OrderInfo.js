@@ -10,6 +10,11 @@ const OrderInfo = ({pageProps, rxInfo}) => {
     const accessToken= queryClient.getQueryData('accessToken');
     // const guid = sessionStorage.getItem('guid');//won't work w/chrome -< chrome storage? does it even need to persist?(yes)
 
+      //    const [isVisible, setIsVisible] = useState(false);  // State to toggle order visibility not sure why its not working atm ):
+
+
+
+
     const ue= queryClient.getQueryData('ue');
     const dd= queryClient.getQueryData('dd');
     const gh= queryClient.getQueryData('gh');
@@ -37,9 +42,15 @@ const OrderInfo = ({pageProps, rxInfo}) => {
       if(partner=='grub') queryClient.setQueryData('gh', res);
       if(partner=='uber') queryClient.setQueryData('ue', res);;
       queryClient.getQueryData('accessToken');
+
+
+// *    const handleClick = () => {
+//        setIsVisible(!isVisible); // Toggle visibility on button click also trying to implement here
+//   };
+
   
     }
-
+    
 
     const { data:map, isLoading: mapIsLoading, error: mapError } = useQuery(['OrderInfo', accessToken, guid], async () => {
       if (!accessToken || !guid) return;//todo: maybe add to an errors useState for 'validation errors?
@@ -56,6 +67,8 @@ const OrderInfo = ({pageProps, rxInfo}) => {
       });
     
 
+
+
     const handleClick = (e) => {
         e.preventDefault();
         queryClient.invalidateQueries(['OrderInfo', accessToken, guid]);
@@ -70,12 +83,15 @@ const OrderInfo = ({pageProps, rxInfo}) => {
     };
 
 
+
    
       const ddSearch= `https://www.google.com/search?q=site:doordash.com+${rxInfo?.location?.address1}`
       const ghSearch=`https://www.google.com/search?q=site:grubhub.com+${rxInfo?.location?.address1}`
       const ueSearch= `https://www.google.com/search?q=site:ubereats.com+${rxInfo?.location?.address1}`
 
       // partner logos 
+
+      
 
       const partnerLogos = {
         DoorDash: "../assets/doordash_image.jpeg",
@@ -94,26 +110,26 @@ const OrderInfo = ({pageProps, rxInfo}) => {
 <div className="flex justify-between items-start">
     <div className="flex-1">
     <div className="py-2">
-    {orders && <div>{orders.length} orders with source API in the last 2 days</div>}
+    {orders && <div className="font-bold py-1">{orders.length} Third Party Orders Last 3 Days</div>}
     {dd && (
         <div>
             <img src={partnerLogos.DoorDash} alt="DoorDash logo" className="inline-block w-4 h-4 mr-2" />
             {dd.length} 
-            <a href={ddSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">DoorDash</a> orders in the last 2 days
+            <a href={ddSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">DoorDash</a> orders in the last 3 days
         </div>
     )}
     {gh && (
         <div>
             <img src={partnerLogos.Grubhub} alt="Grubhub logo" className="inline-block w-4 h-4 mr-2" />
             {gh.length} 
-            <a href={ghSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">Grubhub</a> orders in the last 2 days
+            <a href={ghSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">Grubhub</a> orders in the last 3 days
         </div>
     )}
     {ue && (
         <div>
             <img src={partnerLogos.UberEats} alt="Uber Eats logo" className="inline-block w-4 h-4 mr-2" />
             {ue.length} 
-            <a href={ueSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">Uber Eats</a> orders in the last 2 days
+            <a href={ueSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">Uber Eats</a> orders in the last 3 days
         </div>
     )}
 </div>
@@ -122,9 +138,6 @@ const OrderInfo = ({pageProps, rxInfo}) => {
     <button onClick={handleClick} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg ">
         Show Partner Orders
     </button>
-</div>
-<div id="partner-orders" className="transition duration-500 ease-in-out transform scale-0">
-    {/* Content of partner orders */}
 </div>
 
       </div>

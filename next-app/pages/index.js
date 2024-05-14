@@ -26,7 +26,7 @@ const IndexPage = ({pageProps}) => {
 
   return (
 <div className="max-w-4xl mx-auto p-4">
-            <h2 className="text-lg text-center font-semibold mb-4 text-slate-600">Integration Diagnostics Tool</h2>
+            <h1 className="text-2xl text-center font-bold mb-4 text-slate-700">Toast Integration Diagnostic Tool</h1>
             {!accessToken && (
                 <div>
                     <div id="user-creds" className="bg-white shadow-md rounded-lg p-4">

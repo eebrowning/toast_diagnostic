@@ -65,7 +65,7 @@ const handleCopyGUIDClick = async () => {
             <div className="flex gap-4 mb-4">
                 <input id="input-guid" type="text" placeholder="Enter GUID" className="border border-gray-300 p-2 rounded-md flex-grow" />
                 <button onClick={handleClick} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg">
-                    Fetch Restaurant Info
+                    Fetch Restaurant
                 </button>
             </div>
             {data && (
@@ -73,7 +73,7 @@ const handleCopyGUIDClick = async () => {
                     <h3 className="text-xl font-semibold text-orange-500">{data.general?.name}</h3>
                     <p onClick={handleCopyClickAddress} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>{data.location?.address1}{data.location?.address2 ? `, ${data.location?.address2}` : null}</p>
                     <p>{data.location?.city}, {data.location?.stateCode}</p>
-                    <p onClick={handleCopyGUIDClick} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>GUID: {data.guid}</p>
+                    <p className="mb-4" onClick={handleCopyGUIDClick} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>GUID: {data.guid}</p>
                     <div className="space-y-4">
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <OrderInfo {...pageProps} rxInfo={data} />

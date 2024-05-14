@@ -24,33 +24,37 @@ const toggleLinks = () => setIsOpen(!isOpen); // Function to toggle the list
 
 
 
-    let queries=[
-        {
-            name:'Gift Card Transactions',
-            query:
-            `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod*%20${guid}%20%20%2Fstoredvalue&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714938668.3770202_172D0435-119F-45AD-97C6-4D1C545CCED5`
-        },
-        {
-            name:'Loyalty Lookup and Transactions',
-            query:
-            `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod*%20${guid}%20%20%2Floyalty&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714938912.3770471_172D0435-119F-45AD-97C6-4D1C545CCED5`
-        },
-        {
-            name:'Uber Eats errors',
-            query:
-            `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod_g2%20${guid}%20ZLwxqxmrSLeE5cRuWhcV1mH9Lti45lAB%20error&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714939140.3770683_172D0435-119F-45AD-97C6-4D1C545CCED5`
-        },
-        {
-            name:'Grubhub errors',
-            query:
-            `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod_g2%20${guid}%20partner-grubhub%20error&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714939207.3770753_172D0435-119F-45AD-97C6-4D1C545CCED5`
-        },
-        {
-            name:'DoorDash errors',
-            query:
-            `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod_g2%20${guid}%20partner-doordash%20error&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714939249.3770894_172D0435-119F-45AD-97C6-4D1C545CCED5`
-        },
-    ]
+let queries=[
+    {
+        name:'DoorDash errors',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod_g2%20${guid}%20partner-doordash%20error&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714939249.3770894_172D0435-119F-45AD-97C6-4D1C545CCED5`
+    },
+    {
+        name:'Grubhub errors',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod_g2%20${guid}%20partner-grubhub%20error&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714939207.3770753_172D0435-119F-45AD-97C6-4D1C545CCED5`
+    },
+    {
+        name:'Uber Eats errors',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod_g2%20${guid}%20ZLwxqxmrSLeE5cRuWhcV1mH9Lti45lAB%20error&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714939140.3770683_172D0435-119F-45AD-97C6-4D1C545CCED5`
+    },
+    {
+        name:'Loyalty Transactions',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod*%20${guid}%20%20%2Floyalty&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714938912.3770471_172D0435-119F-45AD-97C6-4D1C545CCED5`
+    },
+    {
+        name:'Gift Card Transactions',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod*%20${guid}%20%20%2Fstoredvalue&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714938668.3770202_172D0435-119F-45AD-97C6-4D1C545CCED5`
+    },
+    {
+        name:'Resource: Types of Order Errors',
+        query:`https://toasttab.atlassian.net/wiki/spaces/~6390bcb52acfad92d7b5b054/pages/3998318903/Orders+API+Errors`
+    }
+]
 
 
 
@@ -65,7 +69,7 @@ const toggleLinks = () => setIsOpen(!isOpen); // Function to toggle the list
                 </button>
             </div>
             {isOpen && data && (
-                <ul className="transition-all ease-in-out duration-300">
+                <ul className="transition-all ease-in-out duration-100">
                     {queries.map(query => (
                         <li key={query.name}>
                             <a href={query.query} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
