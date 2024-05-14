@@ -19,7 +19,8 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
 
     // to copy stuff to make it easeir 
 
-    const handleCopyClickAddress = async () => {
+    const handleCopyClickAddress = async (e) => {
+        e.preventDefault();
       const textToCopy = `${data.location?.address1}${data.location?.address2 ? `, ${data.location?.address2}, ${data.location?.city}, ${data.location?.stateCode}` : ''}`;
       try {
           await navigator.clipboard.writeText(textToCopy);
@@ -71,9 +72,9 @@ const handleCopyGUIDClick = async () => {
             {data && (
                 <div className="bg-white shadow-md rounded-lg p-4">
                     <h3 className="text-xl font-semibold text-orange-500">{data.general?.name}</h3>
-                    <p onClick={handleCopyClickAddress} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>{data.location?.address1}{data.location?.address2 ? `, ${data.location?.address2}` : null}</p>
-                    <p>{data.location?.city}, {data.location?.stateCode}</p>
-                    <p className="mb-4" onClick={handleCopyGUIDClick} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>GUID: {data.guid}</p>
+                    <p onClick={handleCopyClickAddress}  className='inline-block' role="button" tabIndex="0" style={{ cursor: 'pointer' }}>{data.location?.address1}{data.location?.address2 ? `, ${data.location?.address2}` : null}</p>
+                    <p>{data.location?.city}, {data.location?.stateCode} {data.location?.zipCode}</p>
+                    <p className="inline-block mb-4" onClick={handleCopyGUIDClick} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>GUID: {data.guid}</p>
                     <div className="space-y-4">
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <OrderInfo {...pageProps} rxInfo={data} />

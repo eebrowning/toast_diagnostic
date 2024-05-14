@@ -18,6 +18,10 @@ export function QueryStoreProvider({ children }) {
     queryClient.removeQueries(key);
   }
 
+  function getData(key) {
+    return queryClient.getQueryData(key);
+  }
+
   return (
     <QueryStoreContext.Provider value={{ setData, removeData }}>
       {children}

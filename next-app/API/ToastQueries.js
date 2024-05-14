@@ -113,7 +113,7 @@ export function getDiningOptions(accessToken, guid) {
     const timeString = `${hours}:${minutes}:${seconds}.${milliseconds}`;
     const end = `${year}-${month}-${day}`;
 
-    const twoday_= new Date(Date.now() - 2 * 24 * 3600 * 1000)
+    const twoday_= new Date(Date.now() - 3 * 24 * 3600 * 1000)
     const year2 = twoday_.getFullYear();
     const month2 = String(twoday_.getMonth() + 1).padStart(2, '0');
     const day2 = String(twoday_.getDate()).padStart(2, '0');
@@ -128,7 +128,7 @@ export function getDiningOptions(accessToken, guid) {
         let orders = [];
     
         while (true) {
-            const url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}`;
+            const url = `/api/orders/v2/ordersBulk?startDate=${start}T03:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}`;
             const headers = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
