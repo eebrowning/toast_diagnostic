@@ -1,8 +1,7 @@
-import { getDiningOptions, getRecentOrders } from "../../API/ToastQueries.js";
+import { getDiningOptions, getRecentOrders } from "../API/ToastQueries.js";
 import { useQuery } from "react-query";
-import { useQueryClient } from "../../utils/ReactQueryProvider";
+import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
-
 
 
 ///currently 'works', but having state issues. 
@@ -75,6 +74,15 @@ const OrderInfo = ({pageProps, rxInfo}) => {
       const ddSearch= `https://www.google.com/search?q=site:doordash.com+${rxInfo?.location?.address1}`
       const ghSearch=`https://www.google.com/search?q=site:grubhub.com+${rxInfo?.location?.address1}`
       const ueSearch= `https://www.google.com/search?q=site:ubereats.com+${rxInfo?.location?.address1}`
+
+      // partner logos 
+
+      const partnerLogos = {
+        DoorDash: "../assets/doordash_image.jpeg",
+        Grubhub: "../assets/grubhub_image.png",
+        UberEats: "../assets/ue-image.png"
+    };
+    
       
 
 
@@ -83,15 +91,41 @@ const OrderInfo = ({pageProps, rxInfo}) => {
     else 
     return (
       <div>
-
-        <button onClick={handleClick}>Show Partner Orders</button>
-        <div id='partner-orders'>
-
-          <div>{orders && <>{orders.length} orders with source API in the last 2 days</>}</div>
-          <div>{dd && <>{dd.length} <a href={ddSearch} style={{color:'blue'}} target="blank">DoorDash</a> orders in the last 2 days</>}</div>
-          <div>{gh && <>{gh.length} <a href={ghSearch} style={{color:'blue'}} target="blank">Grubhub</a> orders in the last 2 days</>}</div>
-          <div>{ue && <>{ue.length} <a href={ueSearch} style={{color:'blue'}} target="blank">Uber Eats</a> orders in the last 2 days</>}</div>
+<div className="flex justify-between items-start">
+    <div className="flex-1">
+    <div className="py-2">
+    {orders && <div>{orders.length} orders with source API in the last 2 days</div>}
+    {dd && (
+        <div>
+            <img src={partnerLogos.DoorDash} alt="DoorDash logo" className="inline-block w-4 h-4 mr-2" />
+            {dd.length} 
+            <a href={ddSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">DoorDash</a> orders in the last 2 days
         </div>
+    )}
+    {gh && (
+        <div>
+            <img src={partnerLogos.Grubhub} alt="Grubhub logo" className="inline-block w-4 h-4 mr-2" />
+            {gh.length} 
+            <a href={ghSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">Grubhub</a> orders in the last 2 days
+        </div>
+    )}
+    {ue && (
+        <div>
+            <img src={partnerLogos.UberEats} alt="Uber Eats logo" className="inline-block w-4 h-4 mr-2" />
+            {ue.length} 
+            <a href={ueSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">Uber Eats</a> orders in the last 2 days
+        </div>
+    )}
+</div>
+
+    </div>
+    <button onClick={handleClick} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg ">
+        Show Partner Orders
+    </button>
+</div>
+<div id="partner-orders" className="transition duration-500 ease-in-out transform scale-0">
+    {/* Content of partner orders */}
+</div>
 
       </div>
     );

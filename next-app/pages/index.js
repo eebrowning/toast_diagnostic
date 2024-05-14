@@ -1,10 +1,8 @@
 import {useQuery } from "react-query";
-import styles from "../styles/Home.module.css";
-import RestaurantInfo from "./components/RxInfo";
-import OrderInfo from "./components/OrderInfo";
+import RestaurantInfo from "../components/RxInfo.js";
 import { getAuth } from "../API/ToastQueries";
 import { useQueryClient } from "../utils/ReactQueryProvider";
-
+import OrderInfo from "../components/OrderInfo.js"
 
 
 
@@ -27,24 +25,34 @@ const IndexPage = ({pageProps}) => {
   }
 
   return (
-    <div className={styles.container}>
-      Testing: main view -  index.js
-      {!accessToken &&<div id='user-creds'>
-      <label>ClientId</label>
-        <input id='input-id' type='text'></input>
-        <label>ClientSecret</label>
-        <input id='input-secret' type='text'></input>
-        <button onClick={handleClick}>Submit Credentials</button>
-      
-      </div>}
-      {accessToken ? (
-        <>
-          <RestaurantInfo accessToken={accessToken} {...pageProps} />
-        </>
-      ) : (
-        <div>Loading...</div>
-      )}
-    </div>
+<div className="max-w-4xl mx-auto p-4">
+            <h2 className="text-lg text-center font-semibold mb-4 text-slate-600">Integration Diagnostics Tool</h2>
+            {!accessToken && (
+                <div>
+                    <div id="user-creds" className="bg-white shadow-md rounded-lg p-4">
+                        <div className="mb-4">
+                            <label htmlFor="input-id" className="block text-sm font-medium text-gray-700">ClientId</label>
+                            <input id="input-id" type="text" className="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="input-secret" className="block text-sm font-medium text-gray-700">ClientSecret</label>
+                            <input id="input-secret" type="text" className="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
+                        </div>
+                        <div className="flex justify-center mx-8 my-8">
+                            <button onClick={handleClick} className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+                                Submit Credentials
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {accessToken ? (
+                <RestaurantInfo accessToken={accessToken} {...pageProps} />
+            ) : (
+                <div className="text-center py-4">Loading...</div>
+            )}
+        </div>
+
   );
 };
 
