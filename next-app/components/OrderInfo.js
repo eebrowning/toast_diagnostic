@@ -85,9 +85,9 @@ const OrderInfo = ({pageProps, rxInfo}) => {
 
 
    
-      const ddSearch= `https://www.google.com/search?q=site:doordash.com+${rxInfo?.location?.address1}`
-      const ghSearch=`https://www.google.com/search?q=site:grubhub.com+${rxInfo?.location?.address1}`
-      const ueSearch= `https://www.google.com/search?q=site:ubereats.com+${rxInfo?.location?.address1}`
+      const ddSearch= `https://www.google.com/search?q=site:doordash.com+${rxInfo?.location?.address1}+${rxInfo?.location?.zipCode}`
+      const ghSearch=`https://www.google.com/search?q=site:grubhub.com+${rxInfo?.location?.address1}+${rxInfo?.location?.zipCode}`
+      const ueSearch= `https://www.google.com/search?q=site:ubereats.com+${rxInfo?.location?.address1}+${rxInfo?.location?.zipCode}`
 
       // partner logos 
 
