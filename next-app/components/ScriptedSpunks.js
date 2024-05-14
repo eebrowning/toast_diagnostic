@@ -17,27 +17,27 @@ let queries=[
     {
         name:'DoorDash Errors',
         query:
-        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod_g2%20${guid}%20partner-doordash%20error&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714939249.3770894_172D0435-119F-45AD-97C6-4D1C545CCED5`
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dorders%20client_id%3Dpartner-doordash%20className%3Dc.t.s.c.e.BaseExceptionMapper&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1715720494.4907586_172D0435-119F-45AD-97C6-4D1C545CCED5`
     },
     {
         name:'Grubhub Errors',
         query:
-        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod_g2%20${guid}%20partner-grubhub%20error&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714939207.3770753_172D0435-119F-45AD-97C6-4D1C545CCED5`
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dorders%20client_id%3Dpartner-grubhub%20className%3Dc.t.s.c.e.BaseExceptionMapper&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1715720521.4907669_172D0435-119F-45AD-97C6-4D1C545CCED5`
     },
     {
         name:'Uber Eats Errors',
         query:
-        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod_g2%20${guid}%20ZLwxqxmrSLeE5cRuWhcV1mH9Lti45lAB%20error&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714939140.3770683_172D0435-119F-45AD-97C6-4D1C545CCED5`
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dorders%20client_id%3DZLwxqxmrSLeE5cRuWhcV1mH9Lti45lAB%20className%3Dc.t.s.c.e.BaseExceptionMapper&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1715720543.4907691_172D0435-119F-45AD-97C6-4D1C545CCED5`
     },
     {
         name:'Loyalty Transactions',
         query:
-        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod*%20${guid}%20%20%2Floyalty&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714938912.3770471_172D0435-119F-45AD-97C6-4D1C545CCED5`
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dcards%20endpoint%3D%2Fv2%2Floyalty*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1715720572.4907782_172D0435-119F-45AD-97C6-4D1C545CCED5`
     },
     {
         name:'Gift Card Transactions',
         query:
-        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-48h%40h&latest=now&q=search%20index%3Dprod*%20${guid}%20%20%2Fstoredvalue&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1714938668.3770202_172D0435-119F-45AD-97C6-4D1C545CCED5`
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dcards%20endpoint%3D%2Fv2%2Fstoredvalue*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1715720590.4907881_172D0435-119F-45AD-97C6-4D1C545CCED5`
     },
     {
         name:'Resource: Types of Order Errors',
