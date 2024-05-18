@@ -1,13 +1,47 @@
-//Baseline test for fetching to Toast API ->use these with React-Query!
+
+//base fetch to reuse, can export if needed, but not doing it at the moment.
+async function fetchOrders(start, end, timeString, accessToken, guid) {//parallel requests-sometimes extra, but faster than my prev recursive one.
+    const pageSize = 100; 
+    let page = 1;
+    let orders = [];
+
+    while (true) {
+        const url = `/api/orders/v2/ordersBulk?startDate=${start}T03:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}`;
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Toast-Restaurant-External-Id': `${guid}`
+        };
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: headers
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch orders. Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.length === 0) {
+            break;
+        }
+
+        orders.push(...data);
+
+        if (data.length < pageSize) {
+            break;
+        }
+
+        page++;
+    }
+
+    return orders;
+}
 
 
-//clientData->PostMan credentials > need to find out how to obtain programmatically from Toast.
-//accessToken ->obtained by getAuth w/ clientData
-// const [clientId,clientSecret, guid] = require("../keys");//put your own in an .env and it will pull from there-> see keys.js && dotenv package
-//would need clientSecret and clientId provided by user
-
-
-
+///////exported funcs
 export const getAuth=async ()=>{
     const clientData = {
         "clientId": process.env.clientId || sessionStorage.getItem('clientId'),
@@ -98,10 +132,9 @@ export function getDiningOptions(accessToken, guid) {
 }
 
 
-
- export function getRecentOrders(accessToken, guid) {
+export function getRecentOrders(accessToken,guid,span=3,week=0) {
  
-    const today_ = new Date();
+    const today_ = new Date(Date.now() - (week * (7 * 24 * 3600 * 1000)));
     const year = today_.getFullYear();
     const month = String(today_.getMonth() + 1).padStart(2, '0');
     const day = String(today_.getDate()).padStart(2, '0');
@@ -113,103 +146,21 @@ export function getDiningOptions(accessToken, guid) {
     const timeString = `${hours}:${minutes}:${seconds}.${milliseconds}`;
     const end = `${year}-${month}-${day}`;
 
-    const twoday_= new Date(Date.now() - 3 * 24 * 3600 * 1000)
-    const year2 = twoday_.getFullYear();
-    const month2 = String(twoday_.getMonth() + 1).padStart(2, '0');
-    const day2 = String(twoday_.getDate()).padStart(2, '0');
+    const daySpan= new Date(Date.now() - span * 24 * 3600 * 1000)
+    const year2 = daySpan.getFullYear();
+    const month2 = String(daySpan.getMonth() + 1).padStart(2, '0');
+    const day2 = String(daySpan.getDate()).padStart(2, '0');
 
     const start= `${year2}-${month2}-${day2}`
 
 
-
-    async function fetchOrders(start, end, timeString, accessToken, guid) {//parallel requests-sometimes extra, but faster
-        const pageSize = 100; // Adjust the page size as needed
-        let page = 1;
-        let orders = [];
-    
-        while (true) {
-            const url = `/api/orders/v2/ordersBulk?startDate=${start}T03:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}`;
-            const headers = {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`,
-                'Toast-Restaurant-External-Id': `${guid}`
-            };
-    
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: headers
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Failed to fetch orders. Status: ${response.status}`);
-            }
-    
-            const data = await response.json();
-    
-            if (data.length === 0) {
-                break;
-            }
-    
-            orders.push(...data);
-    
-            if (data.length < pageSize) {
-                break;
-            }
-    
-            page++;
-        }
-    
-        return orders;
-    }
     const orderFetch= fetchOrders(start, end, timeString, accessToken, guid)
         .then(apiOrders => {
             return apiOrders.filter(order => order["source"] === "API");
     });
 
     return orderFetch;
-//    return fetchOrders(start, end, timeString, accessToken, guid)
-//         .then(apiOrders => {
-//             return apiOrders.filter(order => order["source"] === "API");
-//         });
-    
+
 
 }
 
-//     let url = `/api/orders/v2/ordersBulk?startDate=${start}T${timeString}-0000&endDate=${end}T${timeString}-0000`;
-//     // let url = `/api/orders/v2/ordersBulk?startDate=${start}T00:00:00.000-0000&endDate=${end}T${timeString}-0000&pageSize=100&page=1`
-// //todo: figure out pagination for ordersBulk
-//      const headers = {
-//          'Accept': 'application/json',
-//          'Content-Type': 'application/json',
-//          'Authorization': `Bearer ${accessToken}`,
-//          'Toast-Restaurant-External-Id': `${guid}`
- 
-//      };
-//      // const body = JSON.stringify({ guid: guid });
-//      return fetch(url, {
-//          method: 'GET',
-//          headers: headers
-//      })
-//      .then(response => {
-//          if (!response.ok) {
-//              console.log(response, 'res')
-//          }
-//          console.log(response, 'res')
-         
-//          return response.json();
-//      })
-//      .then(data => {
-//         //  console.log('Order Data received:', data);
-//          // Process the data further as needed
-         
-//         console.log(data,'api')
-//         const apiOrders= data.filter(order=> order["source"]=="API");
-//         console.log(apiOrders,'api')
-         
-//         return apiOrders;
-
-
-
-//      })
- 

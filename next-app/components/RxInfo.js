@@ -1,5 +1,5 @@
 import { getRxInfo } from "../API/ToastQueries.js";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
 import OrderInfo from "./OrderInfo.js";
@@ -17,7 +17,7 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
         setGuid(iGuid ? iGuid : null);
     }, []);
 
-    // to copy stuff to make it easeir 
+    // to copy stuff to make it easier 
 
     const handleCopyClickAddress = async (e) => {
         e.preventDefault();
@@ -29,34 +29,47 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
           console.error("Failed to copy text: ", err);
           alert("Failed to copy text, check console for more details.");
       }
-  };
+    };
 
 // same thing but for GUID 
 
-const handleCopyGUIDClick = async () => {
-  const textToCopy = data.guid;
-  try {
-      await navigator.clipboard.writeText(textToCopy);
-      alert("GUID copied to clipboard!"); // Provide user feedback
-  } catch (err) {
-      console.error("Failed to copy GUID: ", err);
-      alert("Failed to copy GUID, check console for more details.");
-  }
-};
+    const handleCopyGUIDClick = async () => {
+    const textToCopy = data.guid;
+    try {
+        await navigator.clipboard.writeText(textToCopy);
+        alert("GUID copied to clipboard!"); // Provide user feedback
+    } catch (err) {
+        console.error("Failed to copy GUID: ", err);
+        alert("Failed to copy GUID, check console for more details.");
+    }
+    };
 
   
 
-    const { data, isLoading, error } = useQuery(['RxInfo', accessToken, guid], async () => {
-        if (!accessToken || !guid) return; //todo: maybe add to an errors useState for 'validation errors'?
-        return await getRxInfo(accessToken, guid);
-    });
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['RxInfo', guid],
+        queryFn: async () => {
+          if (!accessToken || !guid) {
+            return [];
+          }; //todo: maybe add to an errors useState for 'validation errors'?
+        //   await guid;
+          return await getRxInfo(accessToken, guid);
+        },
+      });
 
     const handleClick = async (e) => {
         e.preventDefault();
         let input = document.getElementById('input-guid').value;
         sessionStorage.setItem('guid', input); //needs to be set first,or else the doc reloads due to guid 'changing'.
+        queryClient.removeQueries(['RxInfo', guid]);
+        queryClient.removeQueries(['Orders', guid]);
+        queryClient.removeQueries(['OrdersInfo', guid]);
         setGuid(input);
-        queryClient.invalidateQueries(['RxInfo', accessToken, guid]);
+        // queryClient.invalidateQueries(['RxInfo', guid]);
+        // queryClient.invalidateQueries(['Orders', guid]);
+        // queryClient.invalidateQueries(['OrdersInfo', guid]);
+
     };
 
     if (isLoading) return (<div className="text-center py-4">Loading Restaurant Info...</div>);
@@ -77,7 +90,7 @@ const handleCopyGUIDClick = async () => {
                     <p className="inline-block mb-4" onClick={handleCopyGUIDClick} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>GUID: {data.guid}</p>
                     <div className="space-y-4">
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
-                            <OrderInfo {...pageProps} rxInfo={data} />
+                            <OrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} />
                         </div>
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <ScriptedSplunks accessToken={accessToken} guid={guid} {...pageProps} />
@@ -87,6 +100,6 @@ const handleCopyGUIDClick = async () => {
             )}
         </div>
     );
-}
+    }
 
 export default RestaurantInfo;

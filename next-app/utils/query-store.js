@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 const QueryStoreContext = createContext();
 
@@ -23,7 +23,7 @@ export function QueryStoreProvider({ children }) {
   }
 
   return (
-    <QueryStoreContext.Provider value={{ setData, removeData }}>
+    <QueryStoreContext.Provider value={{ setData, removeData, getData }}>
       {children}
     </QueryStoreContext.Provider>
   );

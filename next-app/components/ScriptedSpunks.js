@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+// import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider";
 import {useEffect, useState } from "react";
 import { getRxInfo } from "../API/ToastQueries";

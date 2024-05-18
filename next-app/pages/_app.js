@@ -1,15 +1,15 @@
 import "../styles/globals.css";
 import { ReactQueryProvider } from "../utils/ReactQueryProvider";
-import OrderInfo from "../components/OrderInfo";
-import RestaurantInfo from "../components/RxInfo";
-import { QueryStoreProvider } from '../API/query-store'
+import { QueryStoreProvider } from '../utils/query-store'
+
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ReactQueryProvider>
-      <QueryStoreProvider>
+    <ReactQueryProvider >
+      <QueryStoreProvider >
         <Component {...pageProps} />
       </QueryStoreProvider>
+
     </ReactQueryProvider>
   );
 }

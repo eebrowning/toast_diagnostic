@@ -12,11 +12,12 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@tanstack/react-query": "^5.37.1",
+    "@tanstack/react-query-devtools": "^5.37.1",
     "dotenv": "^16.4.5",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest",
-    "react-query": "^3.39.3"
+    "react-dom": "latest"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
