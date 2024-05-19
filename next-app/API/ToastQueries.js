@@ -1,10 +1,149 @@
+//todo: Eventually, these should all be in their own folder for the endpoint associated. 
 
-//base fetch to reuse, can export if needed, but not doing it at the moment.
-async function fetchOrders(start, end, timeString, accessToken, guid) {//parallel requests-sometimes extra, but faster than my prev recursive one.
+export async function getInventoryStatus(accessToken, guid,itemGuid) {//works
+    //gets inventory status of passed item.
+    // let itemBLT= 'bc7fda9f-d701-4add-b727-eb22a25c2156';
+    const res = await fetch(
+      `/api/stock/v1/inventory/search`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Toast-Restaurant-External-ID': `${guid}`,
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+            "guids": [
+              `${itemGuid}`
+            ]
+          })
+      }
+    );
+  
+    const data = await res.json();
+    console.log(data);
+    return res
+    // let itemCheck= await getInventoryStatus(accessToken,guid,itemGuid);
+}
+
+export async function getMenus(accessToken, guid) {//works
+
+    const res = await fetch(
+      `/api/menus/v2/menus`,
+      {
+        method: 'GET',
+        headers: {
+          'Toast-Restaurant-External-ID': `${guid}`,
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    );
+  
+    const data = await res.json();
+    // console.log(data,'getMenus');
+    return res
+}
+
+
+
+
+///////exported Auth and Rx Info
+export const getAuth=async ()=>{
+    const clientData = {
+        "clientId": process.env.clientId || sessionStorage.getItem('clientId'),
+        "clientSecret": process.env.clientSecret || sessionStorage.getItem('clientSecret'),
+        "userAccessType": "TOAST_MACHINE_CLIENT"
+    }
+
+    let data= await fetch(`/api/authentication/v1/authentication/login`, {
+        headers:{ 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        },
+        method: 'POST',
+        body: JSON.stringify(clientData)
+    })
+    //consider helper function to re-fresh token automatically, or just as a button for an app
+    let token= await data.json();
+
+    token= token.token;
+    let axToken=token.accessToken;
+    return axToken;
+
+}
+export async function getRxInfo(accessToken, guid) {
+   let url = `/api/restaurants/v1/restaurants/${guid}`;
+   
+    
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'Toast-Restaurant-External-Id': `${guid}`
+
+    };
+    // const body = JSON.stringify({ guid: guid });
+    return fetch(url, {
+        method: 'GET',
+        headers: headers
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.log(response, 'res')
+        }
+        return response.json();
+    })
+    .then(data => {
+        // console.log('Data received:', data);
+        // Process the data further as needed
+        return data;
+    })
+}
+
+/////////////
+//Config
+export function getDiningOptions(accessToken, guid) {
+    let url = `/api/config/v2/diningOptions?pageToken=`;
+     
+
+     const headers = {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${accessToken}`,
+         'Toast-Restaurant-External-Id': `${guid}`
+ 
+     };
+     // const body = JSON.stringify({ guid: guid });
+     return fetch(url, {
+         method: 'GET',
+         headers: headers
+     })
+     .then(response => {
+         if (!response.ok) {
+             console.log(response, 'res')
+         }
+         return response.json();
+     })
+     .then(data => {
+        //  console.log('Dining Options received:', data);
+        // Process the data further as needed
+        let map={}; //optionGUID : optionName -> this format will allow us to just select by guid without needing effort front-end
+        for( let obj of data){
+            map[obj['guid']]=obj['name']
+        }
+         return map;
+     })
+}
+
+
+
+/////////////////
+//Orders/
+
+export async function fetchOrders(start, end, timeString, accessToken, guid) {//parallel requests-sometimes extra, but faster than my prev recursive one.
     const pageSize = 100; 
     let page = 1;
     let orders = [];
-
     while (true) {
         const url = `/api/orders/v2/ordersBulk?startDate=${start}T03:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}`;
         const headers = {
@@ -39,98 +178,6 @@ async function fetchOrders(start, end, timeString, accessToken, guid) {//paralle
 
     return orders;
 }
-
-
-///////exported funcs
-export const getAuth=async ()=>{
-    const clientData = {
-        "clientId": process.env.clientId || sessionStorage.getItem('clientId'),
-        "clientSecret": process.env.clientSecret || sessionStorage.getItem('clientSecret'),
-        "userAccessType": "TOAST_MACHINE_CLIENT"
-    }
-
-    let data= await fetch(`/api/authentication/v1/authentication/login`, {
-        headers:{ 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json' 
-        },
-        method: 'POST',
-        body: JSON.stringify(clientData)
-    })
-    //consider helper function to re-fresh token automatically, or just as a button for an app
-    let token= await data.json();
-
-    token= token.token;
-    let axToken=token.accessToken;
-    return axToken;
-
-}
-
-
-
-export function getRxInfo(accessToken, guid) {
-   let url = `/api/restaurants/v1/restaurants/${guid}`;
-
-    
-    const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
-        'Toast-Restaurant-External-Id': `${guid}`
-
-    };
-    // const body = JSON.stringify({ guid: guid });
-    return fetch(url, {
-        method: 'GET',
-        headers: headers
-    })
-    .then(response => {
-        if (!response.ok) {
-            console.log(response, 'res')
-        }
-        return response.json();
-    })
-    .then(data => {
-        // console.log('Data received:', data);
-        // Process the data further as needed
-        return data;
-    })
-}
-
-
-export function getDiningOptions(accessToken, guid) {
-    let url = `/api/config/v2/diningOptions?pageToken=`;
-     
-
-     const headers = {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${accessToken}`,
-         'Toast-Restaurant-External-Id': `${guid}`
- 
-     };
-     // const body = JSON.stringify({ guid: guid });
-     return fetch(url, {
-         method: 'GET',
-         headers: headers
-     })
-     .then(response => {
-         if (!response.ok) {
-             console.log(response, 'res')
-         }
-         return response.json();
-     })
-     .then(data => {
-        //  console.log('Dining Options received:', data);
-        // Process the data further as needed
-        let map={}; //optionGUID : optionName -> this format will allow us to just select by guid without needing effort front-end
-        for( let obj of data){
-            map[obj['guid']]=obj['name']
-        }
-         return map;
-     })
-}
-
 
 export function getRecentOrders(accessToken,guid,span=3,week=0) {
  

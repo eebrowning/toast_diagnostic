@@ -89,7 +89,7 @@ const OrderInfo = ({pageProps, rxInfo,accessToken}) => {
     ////////////////////////////////
       
     if(ordersIsLoading) return(<div>Orders Loading...</div>)
-    else if(ordersError) return(<>error.message</>)
+    else if(ordersError) return(<>{ordersError.message}</>)
     else 
     return (
       <div>
