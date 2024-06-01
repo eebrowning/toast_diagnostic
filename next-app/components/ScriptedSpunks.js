@@ -1,6 +1,5 @@
 // import { useQuery } from "@tanstack/react-query";
-import { useQueryClient } from "../utils/ReactQueryProvider";
-import {useEffect, useState } from "react";
+import {useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -41,30 +40,27 @@ let queries=[
     }
 ]
 
-
-
- 
-    return (
-        <div className="space-y-2">
-            <div className="flex justify-between items-center">
-                <div className="font-bold">Links to Helpful Splunks</div>
-                <button onClick={toggleLinks}>
-                    <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
-                </button>
-            </div>
-            {isOpen && guid && (
-                <ul className="transition-all ease-in-out duration-100">
-                    {queries.map(query => (
-                        <li key={query.name}>
-                            <a href={query.query} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
-                                {query.name}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            )}
+return (
+    <div className="space-y-2">
+        <div className="flex justify-between items-center">
+            <div className="font-bold">Links to Helpful Splunks</div>
+            <button onClick={toggleLinks}>
+                <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
+            </button>
         </div>
-    );
+        {isOpen && guid && (
+            <ul className="transition-all ease-in-out duration-100">
+                {queries.map(query => (
+                    <li key={query.name}>
+                        <a href={query.query} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                            {query.name}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        )}
+    </div>
+);
     
 }
 

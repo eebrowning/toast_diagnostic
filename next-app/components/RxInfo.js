@@ -93,12 +93,12 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
                         <p id='popup-address' className="inline-block bg-black text-gray-300 mx-1 px-1 rounded-sm" style={{display:"none"}}>Info Copied!</p>
                         <p>{data.location?.address1}{data.location?.address2 ? `, ${data.location?.address2}` : null}</p>
                         <p>{data.location?.city}, {data.location?.stateCode} {data.location?.zipCode}</p>
-                        <p>{intlCode(data.location?.country)}</p>
+                        <p>{data.location?.country?intlCode(data.location?.country):null}</p>
                         
                         <p className="inline-block mb-4" onClick={handleCopyGUIDClick} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>GUID: {data.guid}</p>
                         <p id='popup-guid' className="inline-block bg-black text-gray-300 mx-1 px-1 rounded-sm" style={{display:"none"}}>Guid Copied!</p>
                     </div>
-
+                    
                     <div className="space-y-4">
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <OrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} />
