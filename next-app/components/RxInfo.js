@@ -6,9 +6,7 @@ import OrderInfo from "./OrderInfo.js";
 import ScriptedSplunks from "./ScriptedSpunks.js";
 
 const RestaurantInfo = ({ pageProps, accessToken }) => {
-   // const iGuid = sessionStorage.getItem('guid');//since we aren't using much info. But, this could be handled by SSR?
     const queryClient = useQueryClient();
-     // const [guid, setGuid]= useState(iGuid?iGuid:null);//I shouldn't need this, but don't @ me...
     const [guid, setGuid] = useState(null);
 
     useEffect(() => {
@@ -18,33 +16,44 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
     }, []);
 
     // to copy stuff to make it easier 
-
     const handleCopyClickAddress = async (e) => {
         e.preventDefault();
-      const textToCopy = `${data.location?.address1}${data.location?.address2 ? `, ${data.location?.address2}, ${data.location?.city}, ${data.location?.stateCode}` : ''}`;
+      const textToCopy = `
+      ${data.general?.name}
+      ${data.location?.address1}${data.location?.address2 ? `, ${data.location?.address2}, ${data.location?.city}, ${data.location?.stateCode}` : ''}
+      ${data.location?.city}, ${data.location?.stateCode} ${data.location?.zipCode}
+      ${data.guid}
+      `;
       try {
           await navigator.clipboard.writeText(textToCopy);
-          alert("Address copied to clipboard!"); // Or use a more subtle notification method
+          let pop= document.getElementById('popup-address')
+          pop.style.display=''
+          setTimeout(() => {
+              pop.style.display='none'
+          }, 1600); // Change back after 2 seconds
+        //   alert("Address copied to clipboard!"); // Or use a more subtle notification method -> facts
       } catch (err) {
           console.error("Failed to copy text: ", err);
-          alert("Failed to copy text, check console for more details.");
+        //   alert("Failed to copy text, check console for more details.");
       }
     };
 
-// same thing but for GUID 
-
+    // same thing but for GUID 
     const handleCopyGUIDClick = async () => {
     const textToCopy = data.guid;
     try {
         await navigator.clipboard.writeText(textToCopy);
-        alert("GUID copied to clipboard!"); // Provide user feedback
+        let pop= document.getElementById('popup-guid')
+        pop.style.display=''
+        setTimeout(() => {
+            pop.style.display='none'
+        }, 1600); // Change back after 2 seconds
+        // alert("GUID copied to clipboard!"); // Provide user feedback
     } catch (err) {
         console.error("Failed to copy GUID: ", err);
-        alert("Failed to copy GUID, check console for more details.");
+        // alert("Failed to copy GUID, check console for more details.");
     }
     };
-
-  
 
 
     const { data, isLoading, error } = useQuery({
@@ -69,8 +78,12 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
         // queryClient.invalidateQueries(['RxInfo', guid]);
         // queryClient.invalidateQueries(['Orders', guid]);
         // queryClient.invalidateQueries(['OrdersInfo', guid]);
-
     };
+
+    let intlCode=(code)=>{
+        let regionNames = new Intl.DisplayNames(['en'], {type: 'region'});
+        return regionNames.of(code);
+    }
 
     if (isLoading) return (<div className="text-center py-4">Loading Restaurant Info...</div>);
     else if (error) return (<div className="text-red-500 text-center py-4">Error loading information.</div>);
@@ -84,10 +97,17 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
             </div>
             {data && (
                 <div className="bg-white shadow-md rounded-lg p-4">
-                    <h3 className="text-xl font-semibold text-orange-500">{data.general?.name}</h3>
-                    <p onClick={handleCopyClickAddress}  className='inline-block' role="button" tabIndex="0" style={{ cursor: 'pointer' }}>{data.location?.address1}{data.location?.address2 ? `, ${data.location?.address2}` : null}</p>
-                    <p>{data.location?.city}, {data.location?.stateCode} {data.location?.zipCode}</p>
-                    <p className="inline-block mb-4" onClick={handleCopyGUIDClick} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>GUID: {data.guid}</p>
+                    <div id='rx-info'>
+                        <h3 onClick={handleCopyClickAddress}  className='text-xl font-semibold text-orange-500 inline-block' role="button" tabIndex="0" style={{ cursor: 'pointer' }} >{data.general?.name}</h3>
+                        <p id='popup-address' className="inline-block bg-black text-gray-300 mx-1 px-1 rounded-sm" style={{display:"none"}}>Info Copied!</p>
+                        <p>{data.location?.address1}{data.location?.address2 ? `, ${data.location?.address2}` : null}</p>
+                        <p>{data.location?.city}, {data.location?.stateCode} {data.location?.zipCode}</p>
+                        <p>{intlCode(data.location?.country)}</p>
+                        
+                        <p className="inline-block mb-4" onClick={handleCopyGUIDClick} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>GUID: {data.guid}</p>
+                        <p id='popup-guid' className="inline-block bg-black text-gray-300 mx-1 px-1 rounded-sm" style={{display:"none"}}>Guid Copied!</p>
+                    </div>
+
                     <div className="space-y-4">
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <OrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} />

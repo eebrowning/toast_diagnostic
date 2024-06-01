@@ -47,7 +47,7 @@ export async function getMenus(accessToken, guid) {//works
 
 
 
-///////exported Auth and Rx Info
+///////== Auth and Rx Info
 export const getAuth=async ()=>{
     const clientData = {
         "clientId": process.env.clientId || sessionStorage.getItem('clientId'),
@@ -179,7 +179,7 @@ export async function fetchOrders(start, end, timeString, accessToken, guid) {//
     return orders;
 }
 
-export function getRecentOrders(accessToken,guid,span=3,week=0) {
+export function getRecentOrders(accessToken,guid,span=3,week=0) {//defaults to 'this week', 3 day span - made to be flexible for later
  
     const today_ = new Date(Date.now() - (week * (7 * 24 * 3600 * 1000)));
     const year = today_.getFullYear();
