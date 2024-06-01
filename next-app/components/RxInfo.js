@@ -15,7 +15,6 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
         setGuid(iGuid ? iGuid : null);
     }, []);
 
-    // to copy stuff to make it easier 
     const handleCopyClickAddress = async (e) => {
         e.preventDefault();
       const textToCopy = `
@@ -30,15 +29,12 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
           pop.style.display=''
           setTimeout(() => {
               pop.style.display='none'
-          }, 1600); // Change back after 2 seconds
-        //   alert("Address copied to clipboard!"); // Or use a more subtle notification method -> facts
+          }, 1600); 
       } catch (err) {
           console.error("Failed to copy text: ", err);
-        //   alert("Failed to copy text, check console for more details.");
       }
     };
 
-    // same thing but for GUID 
     const handleCopyGUIDClick = async () => {
     const textToCopy = data.guid;
     try {
@@ -47,11 +43,10 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
         pop.style.display=''
         setTimeout(() => {
             pop.style.display='none'
-        }, 1600); // Change back after 2 seconds
-        // alert("GUID copied to clipboard!"); // Provide user feedback
+        }, 1600); 
+
     } catch (err) {
         console.error("Failed to copy GUID: ", err);
-        // alert("Failed to copy GUID, check console for more details.");
     }
     };
 
@@ -62,10 +57,9 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
           if (!accessToken || !guid) {
             return [];
           }; //todo: maybe add to an errors useState for 'validation errors'?
-        //   await guid;
           return await getRxInfo(accessToken, guid);
         },
-      });
+    });
 
     const handleClick = async (e) => {
         e.preventDefault();
@@ -75,12 +69,9 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
         queryClient.removeQueries(['Orders', guid]);
         queryClient.removeQueries(['OrdersInfo', guid]);
         setGuid(input);
-        // queryClient.invalidateQueries(['RxInfo', guid]);
-        // queryClient.invalidateQueries(['Orders', guid]);
-        // queryClient.invalidateQueries(['OrdersInfo', guid]);
     };
 
-    let intlCode=(code)=>{
+    let intlCode=(code)=>{//fancy fun, works for chrome but not safari/firefox!
         let regionNames = new Intl.DisplayNames(['en'], {type: 'region'});
         return regionNames.of(code);
     }

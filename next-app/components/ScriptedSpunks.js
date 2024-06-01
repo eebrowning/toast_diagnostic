@@ -1,14 +1,10 @@
 // import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider";
 import {useEffect, useState } from "react";
-import { getRxInfo } from "../API/ToastQueries";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 const ScriptedSplunks= ({pageProps, accessToken, guid}) => {
-// const iGuid = sessionStorage.getItem('guid');//since we aren't using much info. But, this could be handled by SSR?
-const queryClient = useQueryClient();
-// const [guid, setGuid]= useState(iGuid?iGuid:null);//I shouldn't need this, but don't @ me... 
 const [isOpen, setIsOpen] = useState(false); // Toggle state
 const toggleLinks = () => setIsOpen(!isOpen); // Function to toggle the list
 
@@ -47,9 +43,7 @@ let queries=[
 
 
 
-    // if(isLoading) return(<div>Loading splunks Info...</div>)
-    // else if(error) return(<>error.message</>)
-    // else
+ 
     return (
         <div className="space-y-2">
             <div className="flex justify-between items-center">
