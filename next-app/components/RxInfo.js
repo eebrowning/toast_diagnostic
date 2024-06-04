@@ -17,12 +17,8 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
 
     const handleCopyClickAddress = async (e) => {
         e.preventDefault();
-      const textToCopy = `
-      ${data.general?.name}
-      ${data.location?.address1}${data.location?.address2 ? `, ${data.location?.address2}, ${data.location?.city}, ${data.location?.stateCode}` : ''}
-      ${data.location?.city}, ${data.location?.stateCode} ${data.location?.zipCode}
-      ${data.guid}
-      `;
+      const textToCopy =
+      `${data.general?.name} \n${data.location?.address1}${data.location?.address2 ? `, ${data.location?.address2}, ${data.location?.city}, ${data.location?.stateCode}` : ''} \n${data.location?.city}, ${data.location?.stateCode} ${data.location?.zipCode}\n${data.guid}`;
       try {
           await navigator.clipboard.writeText(textToCopy);
           let pop= document.getElementById('popup-address')

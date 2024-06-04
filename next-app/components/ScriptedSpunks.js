@@ -35,8 +35,49 @@ let queries=[
         `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dcards%20endpoint%3D%2Fv2%2Fstoredvalue*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1715720590.4907881_172D0435-119F-45AD-97C6-4D1C545CCED5`
     },
     {
+        name:'Comp Card Transactions',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dcards%20endpoint%3D%2Fv2%2Fcompcard*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717448181.1913744_92010533-9A2F-4280-9278-38F3AA2914C3`
+    },
+    {
+        name:'HPMS Transactions',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dcards%20endpoint%3D%2Fv1%2Ftender*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717448211.1913753_92010533-9A2F-4280-9278-38F3AA2914C3`
+    },
+    {
+        name:'Reservations Transactions',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dorders%20className%3Dc.t.s.o.r.OrdersResource%20endpoint%3D*POST*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717448418.1913803_92010533-9A2F-4280-9278-38F3AA2914C3`
+    },
+    {
+        name:'Analytics Transactions',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dorders%20className%3Dc.t.s.o.s.d.OrderService%20endpoint%3D*GET*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717448846.1913885_92010533-9A2F-4280-9278-38F3AA2914C3`
+    },
+    {
+        name:'Labor Transactions',
+        query:
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dlabor%20endpoint%3D*%2Fv1%2Fshifts*%20OR%20endpoint%3D*%2Fv1%2Femployees*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717449065.1913937_92010533-9A2F-4280-9278-38F3AA2914C3`
+    },
+    {
         name:'Resource: Types of Order Errors',
         query:`https://toasttab.atlassian.net/wiki/spaces/~6390bcb52acfad92d7b5b054/pages/3998318903/Orders+API+Errors`
+    },
+    {
+        name:'Resource: Types of Loyalty Errors',
+        query:`https://doc.toasttab.com/doc/devguide/apiLoyaltyErrorHandling.html`
+    },
+    {
+        name:'Resource: Types of Gift Card Errors',
+        query:`https://doc.toasttab.com/doc/devguide/apiGiftCardIntegrationWorkflow.html#apiGiftCardIntegrationResponseTypes`
+    },
+    {
+        name:'Resource: Types of Comp Card Errors',
+        query:`https://doc.toasttab.com/doc/devguide/apiGiftCardIntegrationWorkflow.html#apiGiftCardIntegrationResponseTypes`
+    },
+    {
+        name:'Resource: Resource: Types of HPMS Errors',
+        query:`https://doc.toasttab.com/doc/devguide/apiTenderProviderIntegrationsOverview.html#apiTenderErrorHandling`
     }
 ]
 
