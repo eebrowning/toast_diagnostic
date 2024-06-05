@@ -42,7 +42,7 @@ let queries=[
     {
         name:'HPMS Transactions',
         query:
-        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dcards%20endpoint%3D%2Fv1%2Ftender*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717448211.1913753_92010533-9A2F-4280-9278-38F3AA2914C3`
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20d52aef0a-4e4d-415b-aa62-858618c5c1d0%20service%3Dtender%20endpoint%3D%2Fv1%2Ftender*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717605999.3593695_B6FE220A-FE80-4764-9C0A-698A56F99855`
     },
     {
         name:'Reservations Transactions',
@@ -76,7 +76,7 @@ let queries=[
         query:`https://doc.toasttab.com/doc/devguide/apiGiftCardIntegrationWorkflow.html#apiGiftCardIntegrationResponseTypes`
     },
     {
-        name:'Resource: Resource: Types of HPMS Errors',
+        name:'Resource: Types of HPMS Errors',
         query:`https://doc.toasttab.com/doc/devguide/apiTenderProviderIntegrationsOverview.html#apiTenderErrorHandling`
     }
 ]
