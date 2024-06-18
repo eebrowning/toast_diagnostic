@@ -42,7 +42,7 @@ let queries=[
     {
         name:'HPMS Transactions',
         query:
-        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20d52aef0a-4e4d-415b-aa62-858618c5c1d0%20service%3Dtender%20endpoint%3D%2Fv1%2Ftender*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717605999.3593695_B6FE220A-FE80-4764-9C0A-698A56F99855`
+        `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dtender%20endpoint%3D%2Fv1%2Ftender*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717605999.3593695_B6FE220A-FE80-4764-9C0A-698A56F99855`
     },
     {
         name:'Reservations Transactions',
