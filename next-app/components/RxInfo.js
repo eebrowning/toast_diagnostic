@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
 import OrderInfo from "./OrderInfo.js";
+import AllOrderInfo from "./AllOrderInfo.js";
 import ScriptedSplunks from "./ScriptedSpunks.js";
+
 
 const RestaurantInfo = ({ pageProps, accessToken }) => {
     const queryClient = useQueryClient();
@@ -17,8 +19,7 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
 
     const handleCopyClickAddress = async (e) => {
         e.preventDefault();
-      const textToCopy =
-      `${data.general?.name} \n${data.location?.address1}${data.location?.address2 ? `, ${data.location?.address2}, ${data.location?.city}, ${data.location?.stateCode}` : ''} \n${data.location?.city}, ${data.location?.stateCode} ${data.location?.zipCode}\n${data.guid}`;
+      const textToCopy =`${data.general?.name} \n${data.location?.address1}${data.location?.address2 ? `, ${data.location?.address2}, ${data.location?.city}, ${data.location?.stateCode}` : ''} \n${data.location?.city}, ${data.location?.stateCode} ${data.location?.zipCode}\n${data.guid}`;
       try {
           await navigator.clipboard.writeText(textToCopy);
           let pop= document.getElementById('popup-address')
@@ -47,7 +48,7 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
     };
 
 
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, error } = useQuery({//todo: handle initial null guid 
         queryKey: ['RxInfo', guid],
         queryFn: async () => {
           if (!accessToken || !guid) {
@@ -96,8 +97,11 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
                     </div>
                     
                     <div className="space-y-4">
-                        <div className="bg-gray-100 p-4 rounded-lg shadow">
+                        {/* <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <OrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} />
+                        </div> */}
+                        <div className="bg-gray-100 p-4 rounded-lg shadow">
+                            <AllOrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} />
                         </div>
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <ScriptedSplunks accessToken={accessToken} guid={guid} {...pageProps} />

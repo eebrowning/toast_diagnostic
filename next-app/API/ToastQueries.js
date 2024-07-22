@@ -140,7 +140,8 @@ export function getDiningOptions(accessToken, guid) {
 /////////////////
 //Orders/
 
-export async function fetchOrders(start, end, timeString, accessToken, guid) {//parallel requests-sometimes extra, but faster than my prev recursive one.
+export async function fetchOrders(start, end, timeString, accessToken, guid) {//TODO: start and end should be related to business day start/end times - find them on API
+                                                                                //would need to adjust for local time -> needs to adapt to users' time zones
     const pageSize = 100; 
     let page = 1;
     let orders = [];
