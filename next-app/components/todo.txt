@@ -1,0 +1,6 @@
+Appreciate you both here's the list
+ X Consider dining option refinement
+ - Review how business dates are handled
+ X Update 3PO Splunk queries to include className=*exception*
+ - Implement simple log management
+ X Add refresh button or timeout handling 

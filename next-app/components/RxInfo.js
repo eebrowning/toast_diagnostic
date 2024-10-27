@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
 import OrderInfo from "./OrderInfo.js";
+import AllOrderInfo from "./AllOrderInfo.js";
 import ScriptedSplunks from "./ScriptedSpunks.js";
+
 
 const RestaurantInfo = ({ pageProps, accessToken }) => {
     const queryClient = useQueryClient();
@@ -17,8 +19,7 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
 
     const handleCopyClickAddress = async (e) => {
         e.preventDefault();
-      const textToCopy =
-      `${data.general?.name} \n${data.location?.address1}${data.location?.address2 ? `, ${data.location?.address2}, ${data.location?.city}, ${data.location?.stateCode}` : ''} \n${data.location?.city}, ${data.location?.stateCode} ${data.location?.zipCode}\n${data.guid}`;
+      const textToCopy =`${data.general?.name} ${data.general?.locationName ? data.general.locationName:''} \n${data.location?.address1}${data.location?.address2 ? `, ${data.location?.address2}, ${data.location?.city}, ${data.location?.stateCode}` : ''} \n${data.location?.city}, ${data.location?.stateCode} ${data.location?.zipCode}\nToast GUID: ${data.guid}`;
       try {
           await navigator.clipboard.writeText(textToCopy);
           let pop= document.getElementById('popup-address')
@@ -47,7 +48,7 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
     };
 
 
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, error } = useQuery({//todo: handle initial null guid 
         queryKey: ['RxInfo', guid],
         queryFn: async () => {
           if (!accessToken || !guid) {
@@ -55,6 +56,9 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
           }; //todo: maybe add to an errors useState for 'validation errors'?
           return await getRxInfo(accessToken, guid);
         },
+        config: {
+            staleTime: 3600000, // 1hr
+          },
     });
 
     const handleClick = async (e) => {
@@ -65,6 +69,21 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
         queryClient.removeQueries(['Orders', guid]);
         queryClient.removeQueries(['OrdersInfo', guid]);
         setGuid(input);
+    };
+    const handleOptToggle = async (e) => {
+        e.preventDefault();
+        let allOrders=document.getElementById('all-order-info')
+        let threePioOrders = document.getElementById('order-info')
+
+        const isAllOrdersVisible = allOrders.style.display !== 'none';
+
+        if (isAllOrdersVisible) {
+            allOrders.style.display = 'none';
+            threePioOrders.style.display = 'block'; 
+        } else {
+            allOrders.style.display = 'block'; 
+            threePioOrders.style.display = 'none';
+        }
     };
 
     let intlCode=(code)=>{//fancy fun, works for chrome but not safari/firefox!
@@ -85,7 +104,8 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
             {data && (
                 <div className="bg-white shadow-md rounded-lg p-4">
                     <div id='rx-info'>
-                        <h3 onClick={handleCopyClickAddress}  className='text-xl font-semibold text-orange-500 inline-block' role="button" tabIndex="0" style={{ cursor: 'pointer' }} >{data.general?.name}</h3>
+                        <p>{data.location?.address1 ? null: "Please enter a valid GUID or refresh the page"}</p>
+                        <h3 onClick={handleCopyClickAddress}  className='text-xl font-semibold text-orange-500 inline-block' role="button" tabIndex="0" style={{ cursor: 'pointer' }} >{data.general?.name} - {data.general?.locationName}</h3>
                         <p id='popup-address' className="inline-block bg-black text-gray-300 mx-1 px-1 rounded-sm" style={{display:"none"}}>Info Copied!</p>
                         <p>{data.location?.address1}{data.location?.address2 ? `, ${data.location?.address2}` : null}</p>
                         <p>{data.location?.city}, {data.location?.stateCode} {data.location?.zipCode}</p>
@@ -96,13 +116,22 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
                     </div>
                     
                     <div className="space-y-4">
+                        
+        
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
-                            <OrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} />
+                            <button onClick={handleOptToggle} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg " id='orders-toggle'>Toggle Partners/Dining Options</button>
+                            <span id='order-info'><OrderInfo {...pageProps} rxInfo={data}  accessToken={accessToken} /></span>
+                            <span id='all-order-info' style={{display: "none"}}><AllOrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} /></span>
                         </div>
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <ScriptedSplunks accessToken={accessToken} guid={guid} {...pageProps} />
                         </div>
                     </div>
+                </div>
+            )}
+            {!data.location && (
+                <div>
+                    Please enter a valid GUID or refresh the page
                 </div>
             )}
         </div>

@@ -140,12 +140,16 @@ export function getDiningOptions(accessToken, guid) {
 /////////////////
 //Orders/
 
-export async function fetchOrders(start, end, timeString, accessToken, guid) {//parallel requests-sometimes extra, but faster than my prev recursive one.
+export async function fetchOrders(start, end, timeString, accessToken, guid) {//TODO: start and end should be related to business day start/end times - find them on API
+                                                                                //would need to adjust for local time -> needs to adapt to users' time zones
     const pageSize = 100; 
     let page = 1;
     let orders = [];
     while (true) {
         const url = `/api/orders/v2/ordersBulk?startDate=${start}T03:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}`;
+        // const url = `/api/orders/v2/ordersBulk?businessDate=${start}&endDate=endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}&startDate=${start}T03:00:00.000-0000`;
+
+
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -211,3 +215,4 @@ export function getRecentOrders(accessToken,guid,span=3,week=0) {//defaults to '
 
 }
 
+////////
