@@ -3,8 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
 
-
-///currently 'works', but having state issues. 
+//this copy should be the stage to merge allorder and orderinfo
 const OrderInfo = ({pageProps, rxInfo,accessToken}) => {
     const queryClient = useQueryClient();
     // const accessToken= queryClient.getQueryData(['accessToken']);
@@ -124,7 +123,7 @@ const OrderInfo = ({pageProps, rxInfo,accessToken}) => {
 
         </div>
             <button onClick={handleClick} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg ">
-                Show Partner Orders
+                Show DD/UE/GH Orders
             </button>
         </div>
 

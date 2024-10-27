@@ -147,6 +147,9 @@ export async function fetchOrders(start, end, timeString, accessToken, guid) {//
     let orders = [];
     while (true) {
         const url = `/api/orders/v2/ordersBulk?startDate=${start}T03:00:00.000-0000&endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}`;
+        // const url = `/api/orders/v2/ordersBulk?businessDate=${start}&endDate=endDate=${end}T${timeString}-0000&page=${page}&pageSize=${pageSize}&startDate=${start}T03:00:00.000-0000`;
+
+
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -212,3 +215,4 @@ export function getRecentOrders(accessToken,guid,span=3,week=0) {//defaults to '
 
 }
 
+////////

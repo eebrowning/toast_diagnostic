@@ -2,6 +2,7 @@ import { getDiningOptions, getRecentOrders } from "../API/ToastQueries.js";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
+import AllOrderInfo from "./AllOrderInfo.js";
 
 
 ///currently 'works', but having state issues. 
@@ -119,12 +120,13 @@ const OrderInfo = ({pageProps, rxInfo,accessToken}) => {
                       <a href={ueSearch} className="text-blue-600 hover:text-blue-800 px-2" target="_blank">Uber Eats</a> orders in the last 3 days
                   </div>
               )}
+              {/* <AllOrderInfo /> */}
             </div>
         </div>
 
         </div>
             <button onClick={handleClick} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg ">
-                Show Partner Orders
+                Show/Hide Partners
             </button>
         </div>
 

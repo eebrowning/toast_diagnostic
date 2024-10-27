@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
 
-///currently 'works', but having state issues.
+//this should be incorporated into Order Info, or at the very least remove query update, and use existing query from OrderInfo - not that it would matter for the scale of this /shrug
 const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
   const queryClient = useQueryClient();
   const [partnerQuantity, setPartnerQuantity] = useState({});
@@ -15,33 +15,18 @@ const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
   }, []);
 
   const updateOptionMap = (newMap) => {
-    
-   
-  
     queryClient.setQueryData("optionMap", newMap);
   };
 
-  const filterPartnerOrder = (batch) => {
-    //todo: modify for the general display of orders
+  const filterAllPartnerOrder = (batch) => {
     //diningOptionGUID = order.diningOption.guid
     //map[diningOptionGUID] = cx's name for dining option.
     let obj ={};
-    
     batch?.forEach((order) => {
-      // console.log(map[order.diningOption?.guid],'duz')
-      // console.log( obj[map[order.diningOption?.guid]],'duz')
-
       return !obj[map[order.diningOption?.guid]] ?  obj[map[order.diningOption?.guid]] = 1 : obj[map[order.diningOption?.guid]]+=1;
-      // return obj[map[order.diningOption?.guid]]?  obj[map[order.diningOption?.guid]] += 1 : obj[map[order.diningOption?.guid]]=0;
-      // return obj[map[order.diningOption?.guid]]=0;
-
-
-
     });
-    
     setPartnerQuantity(obj)
   };
-
 
 
   const {
@@ -75,11 +60,9 @@ const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
     e.preventDefault();
     queryClient.getQueryData(["OrderInfo", guid]);
 
-    filterPartnerOrder(orders);
-    // filterPartnerOrder("grub", orders);
-    // filterPartnerOrder("uber", orders);
+    filterAllPartnerOrder(orders);
 
-    let partnerOrders = document.getElementById("partner-orders");
+    let partnerOrders = document.getElementById("all-partner-orders");
     if (partnerOrders.style.display === "none") {
       partnerOrders.style.display = "";
     } else if (partnerOrders.style.display === "") {
@@ -102,7 +85,7 @@ const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
                   {orders.length} Third Party Orders Last 3 Days
                 </div>
               )}
-              <div  id="partner-orders" style={{ display: "none" }}>
+              <div  id="all-partner-orders" style={{ display: "none" }}>
                 {Object.keys(partnerQuantity).map((partner) => (
                   <div>
                   {partner} : {partnerQuantity[partner]}
@@ -115,7 +98,7 @@ const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
             onClick={handleClick}
             className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg "
           >
-            Show Partner Orders
+            Show/Hide Dining Options
           </button>
         </div>
       </div>
