@@ -119,9 +119,9 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
                         
         
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
-                            <button onClick={handleOptToggle} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg " id='orders-toggle'>Toggle Partners/Dining Options</button>
-                            <span id='order-info'><OrderInfo {...pageProps} rxInfo={data}  accessToken={accessToken} /></span>
-                            <span id='all-order-info' style={{display: "none"}}><AllOrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} /></span>
+                            {/* <button onClick={handleOptToggle} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg " id='orders-toggle'>Toggle Partners/Dining Options</button> */}
+                            {/* <span id='order-info'><OrderInfo {...pageProps} rxInfo={data}  accessToken={accessToken} /></span> */}
+                            <span id='all-order-info' style={{display: "block"}}><AllOrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} /></span>
                         </div>
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <ScriptedSplunks accessToken={accessToken} guid={guid} {...pageProps} />

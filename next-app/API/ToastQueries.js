@@ -127,7 +127,7 @@ export function getDiningOptions(accessToken, guid) {
      .then(data => {
         //  console.log('Dining Options received:', data);
         // Process the data further as needed
-        let map={}; //optionGUID : optionName -> this format will allow us to just select by guid without needing effort front-end
+        let map={}; //optionGUID : optionName -> this format will allow us to just select by Dining Option guid without needing effort front-end
         for( let obj of data){
             map[obj['guid']]=obj['name']
         }
