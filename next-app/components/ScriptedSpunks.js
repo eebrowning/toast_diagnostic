@@ -60,23 +60,23 @@ let queries=[
         `https://toast.splunkcloud.com/en-US/app/search/search?earliest=-3d%40d&latest=now&q=search%20index%3Dprod_g2%20${guid}%20service%3Dlabor%20endpoint%3D*%2Fv1%2Fshifts*%20OR%20endpoint%3D*%2Fv1%2Femployees*&display.page.search.mode=verbose&dispatch.sample_ratio=1&sid=1717449065.1913937_92010533-9A2F-4280-9278-38F3AA2914C3`
     },
     {
-        name:'Resource: Types of Order Errors',
+        name:'Documentation: Types of Order Errors',
         query:`https://toasttab.atlassian.net/wiki/spaces/~6390bcb52acfad92d7b5b054/pages/3998318903/Orders+API+Errors`
     },
     {
-        name:'Resource: Types of Loyalty Errors',
+        name:'Documentation: Types of Loyalty Errors',
         query:`https://doc.toasttab.com/doc/devguide/apiLoyaltyErrorHandling.html`
     },
     {
-        name:'Resource: Types of Gift Card Errors',
+        name:'Documentation: Types of Gift Card Errors',
         query:`https://doc.toasttab.com/doc/devguide/apiGiftCardIntegrationWorkflow.html#apiGiftCardIntegrationResponseTypes`
     },
     {
-        name:'Resource: Types of Comp Card Errors',
+        name:'Documentation: Types of Comp Card Errors',
         query:`https://doc.toasttab.com/doc/devguide/apiGiftCardIntegrationWorkflow.html#apiGiftCardIntegrationResponseTypes`
     },
     {
-        name:'Resource: Types of HPMS Errors',
+        name:'Documentation: Types of HPMS Errors',
         query:`https://doc.toasttab.com/doc/devguide/apiTenderProviderIntegrationsOverview.html#apiTenderErrorHandling`
     }
 ]
@@ -84,7 +84,7 @@ let queries=[
 return (
     <div className="space-y-2">
         <div className="flex justify-between items-center">
-            <div className="font-bold">Links to Helpful Splunks</div>
+            <div className="font-bold">Splunk Searches & Documentation Links</div>
             <button onClick={toggleLinks}>
                 <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
             </button>

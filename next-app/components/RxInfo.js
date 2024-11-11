@@ -2,17 +2,15 @@ import { getRxInfo } from "../API/ToastQueries.js";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
-import OrderInfo from "./OrderInfo.js";
 import AllOrderInfo from "./AllOrderInfo.js";
 import ScriptedSplunks from "./ScriptedSpunks.js";
-
 
 const RestaurantInfo = ({ pageProps, accessToken }) => {
     const queryClient = useQueryClient();
     const [guid, setGuid] = useState(null);
 
     useEffect(() => {
-        const iGuid = sessionStorage.getItem('guid');
+        const iGuid = sessionStorage.getItem('guid') || "d52aef0a-4e4d-415b-aa62-858618c5c1d0";
         
         setGuid(iGuid ? iGuid : null);
     }, []);
@@ -62,6 +60,7 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
     });
 
     const handleClick = async (e) => {
+        console.log("Fetch")
         e.preventDefault();
         let input = document.getElementById('input-guid').value;
         sessionStorage.setItem('guid', input); //needs to be set first,or else the doc reloads due to guid 'changing'.
@@ -104,15 +103,15 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
             {data && (
                 <div className="bg-white shadow-md rounded-lg p-4">
                     <div id='rx-info'>
-                        <p>{data.location?.address1 ? null: "Please enter a valid GUID or refresh the page"}</p>
+                        <p>{data.location?.address1 ? null: "ERROR: Please enter a valid GUID or refresh the page"}</p>
                         <h3 onClick={handleCopyClickAddress}  className='text-xl font-semibold text-orange-500 inline-block' role="button" tabIndex="0" style={{ cursor: 'pointer' }} >{data.general?.name} - {data.general?.locationName}</h3>
-                        <p id='popup-address' className="inline-block bg-black text-gray-300 mx-1 px-1 rounded-sm" style={{display:"none"}}>Info Copied!</p>
+                        <p id='popup-address' className="inline-block bg-black text-gray-300 mx-1 px-1 rounded-sm" style={{display:"none"}}>Customer Info Copied!</p>
                         <p>{data.location?.address1}{data.location?.address2 ? `, ${data.location?.address2}` : null}</p>
                         <p>{data.location?.city}, {data.location?.stateCode} {data.location?.zipCode}</p>
                         <p>{data.location?.country?intlCode(data.location?.country):null}</p>
                         
                         <p className="inline-block mb-4" onClick={handleCopyGUIDClick} role="button" tabIndex="0" style={{ cursor: 'pointer' }}>GUID: {data.guid}</p>
-                        <p id='popup-guid' className="inline-block bg-black text-gray-300 mx-1 px-1 rounded-sm" style={{display:"none"}}>Guid Copied!</p>
+                        <p id='popup-guid' className="inline-block bg-black text-gray-300 mx-1 px-1 rounded-sm" style={{display:"none"}}>GUID Copied!</p>
                     </div>
                     
                     <div className="space-y-4">
@@ -131,7 +130,6 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
             )}
             {!data.location && (
                 <div>
-                    Please enter a valid GUID or refresh the page
                 </div>
             )}
         </div>

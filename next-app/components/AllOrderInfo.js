@@ -10,7 +10,7 @@ const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
 
   const [guid, setGuid] = useState(null);
   useEffect(() => {
-    const iGuid = sessionStorage.getItem("guid");
+    const iGuid = sessionStorage.getItem("guid") || "d52aef0a-4e4d-415b-aa62-858618c5c1d0";
     setGuid(iGuid ? iGuid : null);
   }, []);
 
@@ -57,6 +57,7 @@ const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
   });
 
   const handleClick = (e) => {
+    console.log("Show/Hide")
     e.preventDefault();
     queryClient.getQueryData(["OrderInfo", guid]);
 
@@ -82,13 +83,15 @@ const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
             <div className="py-2">
               {orders && (
                 <div className="font-bold py-1">
-                  {orders.length} Third Party Orders Last 3 Days
+                  {orders.length} Third-Party Orders Last 3 Days
                 </div>
               )}
               <div  id="all-partner-orders" style={{ display: "none" }}>
-                {Object.keys(partnerQuantity).map((partner) => (
-                  <div>
-                  {partner} : {partnerQuantity[partner]}
+                {Object.keys(partnerQuantity)
+                .sort((a, b) => a.localeCompare(b)) // Sorts keys alphabetically
+                .map((partner) => (
+                  <div key={partner}>
+                  {partner}: {partnerQuantity[partner]}
                   </div>
                 ))}
               </div>
