@@ -49,7 +49,7 @@ clientSecret=your_client_secret
 These credentials are required to authenticate API requests. After updating the file remove the `.example` extension.
 
 ## Contributors
-This project was created by Ethan Browning, Gabriel Santos, and David Alvarez from the Care Integrations team. For more information contact davidalvarez@toasttab.com
+This project was created by Ethan Browning, Gabriel Santos, and David Alvarez from the Care Integrations team. For more information contact david.alvarez@toasttab.com
 
 Special thanks to Toast and #hackathon24, Jimi Radcliff, Lee Nicholson, and Jerry Berney.
 
