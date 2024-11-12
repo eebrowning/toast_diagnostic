@@ -2,6 +2,7 @@ import { getDiningOptions, getRecentOrders } from "../API/ToastQueries.js";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
+import { logEvent } from "../utils/logger.js";
 
 //this should be incorporated into Order Info, or at the very least remove query update, and use existing query from OrderInfo - not that it would matter for the scale of this /shrug
 const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
@@ -57,7 +58,7 @@ const AllOrderInfo = ({ pageProps, rxInfo, accessToken }) => {
   });
 
   const handleClick = (e) => {
-    console.log("Show/Hide")
+    logEvent("Show/Hide")
     e.preventDefault();
     queryClient.getQueryData(["OrderInfo", guid]);
 

@@ -4,6 +4,7 @@ import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
 import AllOrderInfo from "./AllOrderInfo.js";
 import ScriptedSplunks from "./ScriptedSpunks.js";
+import { logEvent } from "../utils/logger.js";
 
 const RestaurantInfo = ({ pageProps, accessToken }) => {
     const queryClient = useQueryClient();
@@ -60,7 +61,7 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
     });
 
     const handleClick = async (e) => {
-        console.log("Fetch")
+        logEvent("Fetch")
         e.preventDefault();
         let input = document.getElementById('input-guid').value;
         sessionStorage.setItem('guid', input); //needs to be set first,or else the doc reloads due to guid 'changing'.

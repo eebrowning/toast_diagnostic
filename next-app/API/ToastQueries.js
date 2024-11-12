@@ -1,9 +1,10 @@
 //todo: Eventually, these should all be in their own folder for the endpoint associated.
+import { logEvent, logDateRange } from "../utils/logger";
 
 export async function getInventoryStatus(accessToken, guid, itemGuid) {//works
     //gets inventory status of passed item.
     // let itemBLT= 'bc7fda9f-d701-4add-b727-eb22a25c2156';
-    console.log("Getting inventory...");
+    logEvent("Getting inventory...");
     const res = await fetch(
       `/api/stock/v1/inventory/search`,
       {
@@ -22,13 +23,13 @@ export async function getInventoryStatus(accessToken, guid, itemGuid) {//works
     );
 
     const data = await res.json();
-    console.log(data);
+    logEvent(data);
     return res;
     // let itemCheck= await getInventoryStatus(accessToken,guid,itemGuid);
 }
 
 export async function getMenus(accessToken, guid) {//works
-    console.log("Getting menus...");
+    logEvent("Getting menus...");
     const res = await fetch(
       `/api/menus/v2/menus`,
       {
@@ -41,12 +42,13 @@ export async function getMenus(accessToken, guid) {//works
     );
 
     const data = await res.json();
+    logEvent(res);
     return res;
 }
 
 ///////== Auth and Rx Info
 export const getAuth = async () => {
-    console.log("Authenticating...");
+    logEvent("Authenticating...");
     try {
         const clientData = {
             "clientId": process.env.clientId,
@@ -68,7 +70,7 @@ export const getAuth = async () => {
 
         token = token.token;
         let axToken = token.accessToken;
-        console.log("OK");
+        logEvent("OK");
         return axToken;
     } catch (error) {
         console.error("Error in getAuth:", error);
@@ -77,13 +79,13 @@ export const getAuth = async () => {
 };
 
 export async function getRxInfo(accessToken, guid) {
-    console.log("Getting restaurant info...");
+    logEvent("Getting restaurant info...");
     if (!accessToken || !guid) {
         console.warn("Missing accessToken or GUID for getRxInfo");
         return [];
     }
     const url = `/api/restaurants/v1/restaurants/${guid}`;
-    console.log(url);
+    logEvent(url);
 
     const headers = {
         'Accept': 'application/json',
@@ -103,15 +105,15 @@ export async function getRxInfo(accessToken, guid) {
         return response.json();
     })
     .then(data => {
-        console.log("OK");
-        return data || [];
+        logEvent("OK");
+        return data;
     });
 }
 
 /////////////
 //Config
 export function getDiningOptions(accessToken, guid) {
-    console.log("Getting dining options...");
+    logEvent("Getting dining options...");
     if (!guid || !accessToken) {
         console.warn("Missing GUID or accessToken for getDiningOptions");
         return [];
@@ -148,7 +150,7 @@ export function getDiningOptions(accessToken, guid) {
 //Orders/
 export async function fetchOrders(start, end, timeString, accessToken, guid) {//TODO: start and end should be related to business day start/end times - find them on API
     //would need to adjust for local time -> needs to adapt to users' time zones
-    console.log("Doing the math...");
+    logEvent("Doing the math...");
     if (!guid || !accessToken) {
         console.warn("Missing GUID or accessToken for fetchOrders");
         return [];
@@ -189,12 +191,12 @@ export async function fetchOrders(start, end, timeString, accessToken, guid) {//
 
         page++;
     }
-    console.log("OK");
-    return orders || [];
+    logEvent("OK");
+    return orders;
 }
 
 export function getRecentOrders(accessToken, guid, span = 3, week = 0) {//defaults to 'this week', 3 day span - made to be flexible for later
-    console.log("Getting recent orders...");
+    logEvent("Getting recent orders...");
     if (!guid || !accessToken) {
         console.warn("Missing GUID or accessToken for getRecentOrders");
         return [];
@@ -224,5 +226,5 @@ export function getRecentOrders(accessToken, guid, span = 3, week = 0) {//defaul
             return apiOrders.filter(order => order["source"] === "API");
         });
 
-    return orderFetch || [];
+    return orderFetch;
 }
