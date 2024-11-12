@@ -43,8 +43,8 @@ The Toast Integrations Diagnostic Tool is designed to help care teams troublesho
 Update the `.env.local.example` file in the root directory with the following environment variables:
 
 ```plaintext
-clientId=your_client_id
-clientSecret=your_client_secret
+CLIENT_ID=your_client_id
+CLIENT_SECRET=your_client_secret
 ```
 These credentials are required to authenticate API requests. After updating the file remove the `.example` extension.
 
