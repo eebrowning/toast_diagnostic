@@ -6,7 +6,8 @@
     "build": "next build",
     "build:linux": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "open": "open http://localhost:3000 && npm run dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
