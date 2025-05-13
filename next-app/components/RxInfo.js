@@ -73,17 +73,14 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
     };
     const handleOptToggle = async (e) => {
         e.preventDefault();
-        let allOrders=document.getElementById('all-order-info')
-        let threePioOrders = document.getElementById('order-info')
+        let allOrders=document.getElementById('search-order-info')
 
         const isAllOrdersVisible = allOrders.style.display !== 'none';
 
         if (isAllOrdersVisible) {
             allOrders.style.display = 'none';
-            threePioOrders.style.display = 'block'; 
         } else {
             allOrders.style.display = 'block'; 
-            threePioOrders.style.display = 'none';
         }
     };
 
@@ -123,7 +120,9 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
                             <span id='all-order-info' style={{display: "block"}}><AllOrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} /></span>
                         </div>
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
-                            <span id='all-order-info' style={{display: "block"}}><SearchOrder {...pageProps} rxInfo={data} accessToken={accessToken} /></span>
+                            <button onClick={handleOptToggle} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg ">Hide Order Search</button>
+                            <span id='search-order-info' style={{display: "block"}}><SearchOrder {...pageProps} rxInfo={data} accessToken={accessToken} /></span>
+
                         </div>
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <ScriptedSplunks accessToken={accessToken} guid={guid} {...pageProps} />
