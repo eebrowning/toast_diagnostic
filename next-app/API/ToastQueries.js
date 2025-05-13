@@ -69,6 +69,7 @@ export const getAuth = async () => {
         let token = await data.json();
 
         token = token.token;
+
         let axToken = token.accessToken;
         logEvent("OK");
         return axToken;

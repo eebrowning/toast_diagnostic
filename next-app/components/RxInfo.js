@@ -4,6 +4,7 @@ import { useQueryClient } from "../utils/ReactQueryProvider.js";
 import { useEffect, useState } from "react";
 import AllOrderInfo from "./AllOrderInfo.js";
 import ScriptedSplunks from "./ScriptedSpunks.js";
+import SearchOrder from "./SearchOrder.js";
 import { logEvent } from "../utils/logger.js";
 
 const RestaurantInfo = ({ pageProps, accessToken }) => {
@@ -11,7 +12,7 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
     const [guid, setGuid] = useState(null);
 
     useEffect(() => {
-        const iGuid = sessionStorage.getItem('guid') || "d52aef0a-4e4d-415b-aa62-858618c5c1d0";
+        const iGuid = sessionStorage.getItem('guid') || "e3b73acb-a636-46b7-8f24-2e34b55801af";
         
         setGuid(iGuid ? iGuid : null);
     }, []);
@@ -119,9 +120,10 @@ const RestaurantInfo = ({ pageProps, accessToken }) => {
                         
         
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
-                            {/* <button onClick={handleOptToggle} className="transition duration-150 ease-in bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded-lg " id='orders-toggle'>Toggle Partners/Dining Options</button> */}
-                            {/* <span id='order-info'><OrderInfo {...pageProps} rxInfo={data}  accessToken={accessToken} /></span> */}
                             <span id='all-order-info' style={{display: "block"}}><AllOrderInfo {...pageProps} rxInfo={data} accessToken={accessToken} /></span>
+                        </div>
+                        <div className="bg-gray-100 p-4 rounded-lg shadow">
+                            <span id='all-order-info' style={{display: "block"}}><SearchOrder {...pageProps} rxInfo={data} accessToken={accessToken} /></span>
                         </div>
                         <div className="bg-gray-100 p-4 rounded-lg shadow">
                             <ScriptedSplunks accessToken={accessToken} guid={guid} {...pageProps} />
